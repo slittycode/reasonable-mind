@@ -38,7 +38,7 @@ const BROWSER_CONFIG = {
   executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined
 };
 
-// Simple static server for the watson-glaser-trainer directory
+// Simple static server for the trainer directory
 function createServer(rootDir, port = 8080) {
   return http.createServer((req, res) => {
     try {
@@ -88,7 +88,7 @@ function createServer(rootDir, port = 8080) {
 }
 
 (async () => {
-  const root = path.resolve(__dirname, '..'); // watson-glaser-trainer
+  const root = path.resolve(__dirname, '..'); // trainer
   console.log('Starting static server for', root, 'on port', PORT);
   const server = createServer(root, PORT);
 
