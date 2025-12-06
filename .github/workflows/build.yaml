@@ -93,5 +93,5 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           docker buildx imagetools create -t ${{ env.REGISTRY }}:computer-use-demo-latest \
-            ${{ env.REGISTRY }}:computer-use-demo-${SHORT_SHA}-amd64 \
-            ${{ env.REGISTRY }}:computer-use-demo-${SHORT_SHA}-arm64
+            ${{ env.REGISTRY }}:computer-use-demo-latest-amd64 \
+            ${{ env.REGISTRY }}:computer-use-demo-latest-arm64
