@@ -4,13 +4,14 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from contextlib import AsyncExitStack
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.sse import sse_client
 from mcp.client.stdio import stdio_client
 
-from ..tools.mcp_tool import MCPTool
+if TYPE_CHECKING:
+    from ..tools.mcp_tool import MCPTool
 
 
 class MCPConnection(ABC):
@@ -119,8 +120,10 @@ def create_mcp_connection(config: dict[str, Any]) -> MCPConnection:
 async def setup_mcp_connections(
     mcp_servers: list[dict[str, Any]] | None,
     stack: AsyncExitStack,
-) -> list[MCPTool]:
+) -> list["MCPTool"]:
     """Set up MCP server connections and create tool interfaces."""
+    from ..tools.mcp_tool import MCPTool  # Local import to avoid circular dependency
+    
     if not mcp_servers:
         return []
 
