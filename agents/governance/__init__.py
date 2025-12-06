@@ -27,3 +27,4 @@ __all__ = [
     "PlanStep",
     "ViolationType",
 ]
+"""Lightweight governance utilities used by tests."""
