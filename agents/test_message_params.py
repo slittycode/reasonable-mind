@@ -14,8 +14,12 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from agents.agent import Agent, ModelConfig
 
 
-class TestMessageParams:
-    """Test cases for message_params functionality."""
+class MessageParamsTestSuite:
+    """Test cases for message_params functionality.
+    
+    Note: This is a manual test runner, not a pytest class.
+    Run directly with: python -m agents.test_message_params
+    """
     
     def __init__(self, verbose: bool = True):
         """Initialize test suite.
@@ -261,7 +265,7 @@ def main():
         sys.exit(1)
         
     # Run tests
-    test_suite = TestMessageParams(verbose=True)
+    test_suite = MessageParamsTestSuite(verbose=True)
     success = test_suite.run_all_tests()
     
     # Exit with appropriate code
