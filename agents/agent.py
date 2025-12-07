@@ -1,12 +1,27 @@
 """Agent implementation with Claude API and tools."""
 
 import asyncio
+import importlib.util
 import os
 from contextlib import AsyncExitStack
 from dataclasses import dataclass
 from typing import Any
 
-from anthropic import Anthropic
+if importlib.util.find_spec("anthropic"):
+    from anthropic import Anthropic
+else:  # pragma: no cover - exercised only when dependency is missing
+    class _MissingAnthropicMessages:
+        def create(self, *args: Any, **kwargs: Any) -> Any:
+            raise ModuleNotFoundError(
+                "anthropic package is required for Agent message creation. "
+                "Install it with `pip install anthropic`."
+            )
+
+    class Anthropic:  # type: ignore[override]
+        """Lightweight stub used when anthropic is not installed."""
+
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            self.messages = _MissingAnthropicMessages()
 
 from .utils.connections import setup_mcp_connections
 from .utils.history_util import MessageHistory
