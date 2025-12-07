@@ -2,7 +2,6 @@
 
 from importlib import import_module
 
-from .tools.base import Tool
 # Lazy imports keep optional dependencies (like the anthropic SDK) from being
 # required at package import time. This allows subpackages such as
 # ``agents.governance`` to be imported in environments where the SDK is not
