@@ -1,8 +1,6 @@
 """Core agent implementations."""
 
 from importlib import import_module
-
-from .tools.base import Tool
 # Lazy imports keep optional dependencies (like the anthropic SDK) from being
 # required at package import time. This allows subpackages such as
 # ``agents.governance`` to be imported in environments where the SDK is not
@@ -30,7 +28,7 @@ def __getattr__(name: str):
             if exc.name == "anthropic":
                 raise ImportError(
                     "The 'anthropic' package is required to use agents.Agent. "
-                    "Install it or provide a compatible client instance."
+                    "Install it or provide a compatible client instance.",
                 ) from exc
             raise
 
@@ -39,14 +37,10 @@ def __getattr__(name: str):
         globals().update({"Agent": Agent, "ModelConfig": ModelConfig})
         return globals()[name]
 
-    raise AttributeError(name)
-def __getattr__(name):
-    if name in {"Agent", "ModelConfig"}:
-        from .agent import Agent, ModelConfig
-
-        return {"Agent": Agent, "ModelConfig": ModelConfig}[name]
     if name == "Tool":
         from .tools.base import Tool
 
+        globals()["Tool"] = Tool
         return Tool
-    raise AttributeError(f"module 'agents' has no attribute '{name}'")
+
+    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
