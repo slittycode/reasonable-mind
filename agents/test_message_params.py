@@ -15,6 +15,7 @@ from agents.agent import Agent, ModelConfig
 
 
 class TestMessageParams:
+    __test__ = False  # Prevent pytest collection (requires live API key)
     """Test cases for message_params functionality."""
 
     def __init__(self, verbose: bool = True):
