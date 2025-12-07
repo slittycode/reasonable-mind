@@ -204,6 +204,7 @@ class LogicEngine:
                 warnings=warnings,
             )
 
+<<<<<<< Updated upstream
         # Method 2: Truth table evaluation (slow but complete)
         if len(argument.propositions) <= 5:
             return self._truth_table_validate(argument)
@@ -213,6 +214,19 @@ class LogicEngine:
         )
 
         # Method 3: Heuristic (fallback)
+=======
+        # Method 2: Truth table evaluation (slow but complete) or heuristic fallback
+        if len(argument.propositions) > 5:
+            warnings.append(
+                f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
+            )
+            warnings.append("Using heuristic evaluation - not deterministic")
+            return self._heuristic_validate(argument, warnings)
+
+        truth_result = self._truth_table_validate(argument)
+        if truth_result:
+            return truth_result
+>>>>>>> Stashed changes
         warnings.append("Using heuristic evaluation - not deterministic")
         return self._heuristic_validate(argument, warnings)
 

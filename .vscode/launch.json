@@ -15,7 +15,15 @@
             "type": "debugpy",
             "request": "launch",
             "module": "pytest",
-            "args": ["agents/tests/", "-v"],
+            "args": [
+                "agents/tests/",
+                "-v",
+                "--cov=agents.governance",
+                "--cov=agents.core_logic",
+                "--cov-report=xml",
+                "--cov-report=term-missing",
+                "--cov-fail-under=45"
+            ],
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}"
