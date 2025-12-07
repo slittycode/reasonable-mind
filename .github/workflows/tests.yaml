@@ -41,6 +41,8 @@ jobs:
           pip install -r agents/requirements.txt
       - name: Add venv to PATH
         run: echo "$PWD/.venv/bin" >> $GITHUB_PATH
+      - name: Prepare junit directory
+        run: mkdir -p junit
       - name: Run tests
         run: pytest agents/tests -v --junitxml=junit/agents-test-results.xml
       - name: Upload test results
