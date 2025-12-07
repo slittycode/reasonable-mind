@@ -13,7 +13,23 @@ on:
       - .github/**
       - computer-use-demo/**
 jobs:
+  check-computer-use-demo:
+    runs-on: ubuntu-latest
+    outputs:
+      present: ${{ steps.detect.outputs.present }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: detect
+        run: |
+          if [ -d computer-use-demo ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-amd64:
+    needs: check-computer-use-demo
+    if: needs.check-computer-use-demo.outputs.present == 'true'
     uses: ./.github/workflows/reusable_build_step.yaml
     with:
       platform: amd64
@@ -25,6 +41,8 @@ jobs:
       contents: read
       packages: write
   build-arm64:
+    needs: check-computer-use-demo
+    if: needs.check-computer-use-demo.outputs.present == 'true'
     uses: ./.github/workflows/reusable_build_step.yaml
     with:
       platform: arm64
@@ -36,10 +54,12 @@ jobs:
       contents: read
       packages: write
   merge:
-    runs-on: ubuntu-latest
     needs:
+      - check-computer-use-demo
       - build-arm64
       - build-amd64
+    if: needs.check-computer-use-demo.outputs.present == 'true'
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
