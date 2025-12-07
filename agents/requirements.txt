@@ -1,0 +1,3 @@
+# Shared dependencies for the agents package
+# Install the base project requirements to keep tooling consistent
+-r ../requirements.txt
