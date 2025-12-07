@@ -98,60 +98,47 @@ class ExecutionResult:
 
     def to_audit_record(self) -> Dict[str, object]:
         """Convert to audit-friendly record."""
-
+        context = (
+            self.execution_context.to_dict()
+            if self.execution_context
+            else {
+                "constraint_hash": self.constraint_hash,
+                "plan_id": self.plan_id,
+                "persona_id": self.persona_id,
+                "session_id": None,
+            }
+        )
         return {
+            **context,
             "correlation_id": self.correlation_id,
             "command": self.command,
             "mode": self.mode.value,
             "exit_code": self.exit_code,
             "blocked": self.blocked,
             "block_reason": self.block_reason,
-            "constraint_hash": self.constraint_hash,
-            "plan_id": self.plan_id,
-            "persona_id": self.persona_id,
+            "stdout": self.stdout,
+            "stderr": self.stderr,
+            "duration_ms": self.duration_ms,
             "timestamp": int(time.time() * 1000),
-    stdout: str
-    stderr: str
-    mode: ExecutionMode
-    exit_code: int
-    message: str = ""
-    block_reason: Optional[str] = None
-    duration: float = 0.0
-    blocked: bool = False
-    execution_context: Optional[ExecutionContext] = None
-    correlation_id: Optional[str] = None
-    command: Optional[str] = None
-    duration_ms: Optional[float] = None
+        }
 
     @property
     def constraint_hash(self) -> Optional[str]:
-        return self.execution_context.constraint_hash if self.execution_context else None
+        if self.execution_context:
+            return self.execution_context.constraint_hash
+        return None
 
     @property
     def plan_id(self) -> Optional[str]:
-        return self.execution_context.plan_id if self.execution_context else None
+        if self.execution_context:
+            return self.execution_context.plan_id
+        return None
 
     @property
     def persona_id(self) -> Optional[str]:
-        return self.execution_context.persona_id if self.execution_context else None
-
-    def to_audit_record(self) -> Dict[str, object]:
-        context = self.execution_context.to_dict() if self.execution_context else {
-            "constraint_hash": None,
-            "plan_id": None,
-            "persona_id": None,
-            "session_id": None,
-        }
-        return {
-            **context,
-            "stdout": self.stdout,
-            "stderr": self.stderr,
-            "block_reason": self.block_reason,
-            "mode": self.mode.value,
-            "exit_code": self.exit_code,
-            "blocked": self.blocked,
-            "timestamp": time.time(),
-        }
+        if self.execution_context:
+            return self.execution_context.persona_id
+        return None
 
 
 class ExecutionProxy:
