@@ -165,6 +165,18 @@ class LogicEngine:
         Returns:
             ValidationResult with validity determination
         """
+        if not argument.premises:
+            return ValidationResult(
+                is_valid=False,
+                form_identified=None,
+                truth_table_valid=None,
+                counterexample=None,
+                confidence=0.5,
+                method="heuristic",
+                explanation="No premises provided; cannot infer conclusion deterministically",
+                warnings=["Heuristic evaluation because premises list is empty"],
+            )
+
         warnings = []
 
         if not argument.premises:
@@ -185,6 +197,7 @@ class LogicEngine:
         if pattern_result:
             return pattern_result
 
+        # Quick heuristic: guard against conclusions introducing new terms
         # Quick check: conclusion should not introduce new terms beyond premises
         premise_terms = set()
         for prem in argument.premises:
@@ -205,6 +218,15 @@ class LogicEngine:
                 warnings=warnings,
             )
 
+        # Method 2: Truth table evaluation (slow but complete)
+        if len(argument.propositions) <= 5:
+            return self._truth_table_validate(argument)
+
+        warnings.append(
+            f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
+        )
+
+        # Method 3: Heuristic (fallback)
         # Method 2: Truth table evaluation (slow but complete) or heuristic fallback
         if len(argument.propositions) > 5:
             warnings.append(
@@ -332,6 +354,45 @@ class LogicEngine:
 
         Returns list of tokens (variables, operators, parens).
         """
+        tokens = []
+        i = 0
+        while i < len(expression):
+            ch = expression[i]
+
+            if ch in ["→", "∧", "∨", "¬", "↔", "(", ")"]:
+                tokens.append(ch)
+                i += 1
+            elif ch.isalpha():
+                # Capture predicate symbols including function-like terms e.g., Human(Socrates)
+                var = ch
+                i += 1
+                while i < len(expression) and expression[i].isalpha():
+                    var += expression[i]
+                    i += 1
+
+                # If followed by parenthesis, capture until matching close
+                if i < len(expression) and expression[i] == "(":
+                    depth = 0
+                    while i < len(expression):
+                        var += expression[i]
+                        if expression[i] == "(":
+                            depth += 1
+                        elif expression[i] == ")":
+                            depth -= 1
+                            if depth == 0:
+                                i += 1
+                                break
+                        i += 1
+                else:
+                    while i < len(expression) and (expression[i].isalnum() or expression[i] == "_"):
+                        var += expression[i]
+                        i += 1
+
+                tokens.append(var)
+            else:
+                i += 1  # Skip whitespace, etc.
+
+        return tokens
         token_pattern = r"(→|∧|∨|¬|↔|\(|\)|[A-Za-z][A-Za-z0-9_]*(?:\([^()]*\))?)"
         return [match.group(0) for match in re.finditer(token_pattern, expression)]
 
@@ -438,23 +499,13 @@ class LogicEngine:
         # P _implies_ Q  =>  (not P or Q)
         while "_implies_" in expr:
             # Find the operands (simplified - assumes no nested implications)
-            parts = expr.split("_implies_", 1)
-            if len(parts) == 2:
-                left = parts[0].strip()
-                right = parts[1].strip()
-                expr = f"(not {left} or {right})"
-            else:
-                break
+            left, right = expr.split("_implies_", 1)
+            expr = f"(not {left.strip()} or {right.strip()})"
 
         # P _iff_ Q  =>  ((not P or Q) and (not Q or P))
         while "_iff_" in expr:
-            parts = expr.split("_iff_", 1)
-            if len(parts) == 2:
-                left = parts[0].strip()
-                right = parts[1].strip()
-                expr = f"((not {left} or {right}) and (not {right} or {left}))"
-            else:
-                break
+            left, right = expr.split("_iff_", 1)
+            expr = f"((not {left.strip()} or {right.strip()}) and (not {right.strip()} or {left.strip()}))"
 
         return expr
 
