@@ -1,4 +1,6 @@
 # Code Efficacy Review (targeted follow-up)
+```markdown
+# Code Efficacy Review (targeted follow-up)
 
 ## Scope of inspection
 - `agents/agent.py` — request/response loop and tool dispatch plumbing.
@@ -29,9 +31,15 @@ Severity and urgency are ranked High → Medium → Low.
 
 ## Suggested next steps
 - Prioritize replacing the blocking client invocation with an async-safe wrapper and enforce deadlines for Anthropic responses.
-1) **Blocking Anthropic call inside async loop**
-   - `_agent_loop` calls `client.messages.create` synchronously while holding the event loop, so network latency or slow responses will stall tool execution and cancellation checks.
-   - **Recommendation:** Switch to an async Anthropic client when available or wrap the call in `asyncio.to_thread`/`loop.run_in_executor` with explicit timeouts and retries so the agent loop remains responsive.
+- Rework truncation to retire the strict pair-removal heuristic in favor of token-budget trimming with accurate accounting and a single notice insertion.
+- Extend tool execution responses with structured error metadata and centralized logging hooks to improve downstream handling.
+
+## Quick Wins
+- Introduce async-friendly Anthropic calls to remove blocking points.
+- Refine truncation logic to operate on token budgets per message.
+- Enrich tool error payloads and logging for better debugging and resilience.
+
+```
 
 2) **Truncation assumes paired turns**
    - `MessageHistory.truncate` removes messages in fixed pairs and overwrites the next message with a constant 25-token notice. Mixed system/tool messages or uneven turn counts can leave `total_tokens` inaccurate and remove critical context disproportionately.
@@ -71,3 +79,7 @@ A focused review of the core agent loop, tool execution pipeline, and message hi
 - Introduce async-friendly Anthropic calls to remove blocking points.
 - Refine truncation logic to operate on token budgets per message.
 - Enrich tool error payloads and logging for better debugging and resilience.
+=======
+- Rework truncation to retire the strict pair-removal heuristic in favor of token-budget trimming with accurate accounting and a single notice insertion.
+- Extend tool execution responses with structured error metadata and centralized logging hooks to improve downstream handling.
+>>>>>>> 041f592 (Clarify code review priorities and metrics)
