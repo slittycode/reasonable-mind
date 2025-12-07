@@ -18,8 +18,11 @@ jobs:
     outputs:
       computer_use_demo: ${{ steps.filter.outputs.computer_use_demo }}
     steps:
-      - uses: actions/checkout@v4
-      - id: filter
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for computer-use-demo changes
+        id: filter
         uses: dorny/paths-filter@v3
         with:
           filters: |
@@ -27,8 +30,8 @@ jobs:
               - 'computer-use-demo/**'
 
   build-amd64:
-    if: ${{ needs.changes.outputs.computer_use_demo == 'true' }}
     needs: changes
+    if: ${{ needs.changes.outputs.computer_use_demo == 'true' }}
     uses: ./.github/workflows/reusable_build_step.yaml
     with:
       platform: amd64
@@ -40,8 +43,8 @@ jobs:
       contents: read
       packages: write
   build-arm64:
-    if: ${{ needs.changes.outputs.computer_use_demo == 'true' }}
     needs: changes
+    if: ${{ needs.changes.outputs.computer_use_demo == 'true' }}
     uses: ./.github/workflows/reusable_build_step.yaml
     with:
       platform: arm64
