@@ -4,21 +4,15 @@ Execution proxy focused on shell-injection hardening for tests.
 
 The proxy does not execute commands in LIVE mode (to keep tests hermetic);
 it validates commands against an allowlist, deny patterns, and shell
-
-"""
-Execution proxy focused on shell-injection hardening for tests.
-
-The proxy does not execute commands in LIVE mode (to keep tests hermetic);
-it validates commands against an allowlist, deny patterns, and shell
 metacharacter checks, then returns an ExecutionResult describing the decision.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Pattern, Set
-import uuid
 import re
 import time
+import uuid
 
 class ExecutionMode(Enum):
     LIVE = "live"
@@ -217,4 +211,4 @@ class ExecutionProxy:
             persona_id=getattr(ctx, "persona_id", None),
             execution_context=ctx,
         )
-            mode=self.mode,
+

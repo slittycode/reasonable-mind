@@ -192,13 +192,20 @@ class LogicEngine:
                 warnings=warnings,
             )
 
+        # For arguments with >5 variables, use only heuristic validation
+        if len(argument.propositions) > 5:
+            warnings.append(
+                f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
+            )
+            warnings.append("Using heuristic evaluation - not deterministic")
+            return self._heuristic_validate(argument, warnings)
+
         # Method 1: Pattern matching (fast, deterministic)
         pattern_result = self._pattern_match(argument)
         if pattern_result:
             return pattern_result
 
         # Quick heuristic: guard against conclusions introducing new terms
-        # Quick check: conclusion should not introduce new terms beyond premises
         premise_terms = set()
         for prem in argument.premises:
             premise_terms.update(self._extract_terms(prem))
@@ -219,15 +226,7 @@ class LogicEngine:
             )
 
         # Method 2: Truth table evaluation (slow but complete)
-        if len(argument.propositions) <= 5:
-            return self._truth_table_validate(argument)
-
-        warnings.append(
-            f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
-        )
-        warnings.append("Using heuristic evaluation - not deterministic")
-        # Method 3: Heuristic (fallback)
-        return self._heuristic_validate(argument, warnings)
+        return self._truth_table_validate(argument)
 
     def _pattern_match(self, argument: LogicalArgument) -> Optional[ValidationResult]:
         """
