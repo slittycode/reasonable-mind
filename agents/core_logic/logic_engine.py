@@ -9,7 +9,7 @@ Provides formal validation of propositional logic arguments using:
 This is the FOUNDATION layer - always runs before AI enhancement.
 """
 
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Set, Optional
 from dataclasses import dataclass
 from enum import Enum
 import json
@@ -205,19 +205,19 @@ class LogicEngine:
                 warnings=warnings,
             )
 
-        # Method 2: Truth table evaluation (slow but complete)
-        if len(argument.propositions) <= 5:
-            truth_result = self._truth_table_validate(argument)
-            if truth_result:
-                return truth_result
-        else:
-            warnings.append(
-                f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
-            )
-
-        # Method 3: Heuristic (fallback)
-        warnings.append("Using heuristic evaluation - not deterministic")
-        return self._heuristic_validate(argument, warnings)
+            # Method 2: Truth table evaluation (slow but complete) or heuristic fallback
+            if len(argument.propositions) > 5:
+                warnings.append(
+                    f"Too many variables ({len(argument.propositions)}) for truth table evaluation"
+                )
+                warnings.append("Using heuristic evaluation - not deterministic")
+                return self._heuristic_validate(argument, warnings)
+            else:
+                truth_result = self._truth_table_validate(argument)
+                if truth_result:
+                    return truth_result
+                warnings.append("Using heuristic evaluation - not deterministic")
+                return self._heuristic_validate(argument, warnings)
 
     def _pattern_match(self, argument: LogicalArgument) -> Optional[ValidationResult]:
         """
@@ -428,7 +428,7 @@ class LogicEngine:
 
         try:
             return eval(eval_expr)
-        except:
+        except Exception:
             # Parse error - return False (safe default)
             return False
 
@@ -463,9 +463,6 @@ class LogicEngine:
 
         This is NOT deterministic - lower confidence.
         """
-        # Simple heuristics
-        confidence = 0.5
-
         # Heuristic 1: Check if conclusion mentions terms not in premises
         premise_terms = set()
         for prem in argument.premises:
