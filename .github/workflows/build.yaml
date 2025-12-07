@@ -61,6 +61,8 @@ jobs:
       - changes
       - build-arm64
       - build-amd64
+    if: needs.check-computer-use-demo.outputs.present == 'true'
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
