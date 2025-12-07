@@ -9,7 +9,7 @@ Provides formal validation of propositional logic arguments using:
 This is the FOUNDATION layer - always runs before AI enhancement.
 """
 
-from typing import List, Dict, Set, Tuple, Optional
+from typing import List, Dict, Set, Optional
 from dataclasses import dataclass
 from enum import Enum
 import json
@@ -179,12 +179,26 @@ class LogicEngine:
 
         warnings = []
 
+        if not argument.premises:
+            warnings.append("No premises provided; evaluation is heuristic")
+            return ValidationResult(
+                is_valid=False,
+                form_identified=None,
+                truth_table_valid=None,
+                counterexample=None,
+                confidence=0.5,
+                method="heuristic",
+                explanation="Cannot evaluate argument without premises; conclusion unsupported",
+                warnings=warnings,
+            )
+
         # Method 1: Pattern matching (fast, deterministic)
         pattern_result = self._pattern_match(argument)
         if pattern_result:
             return pattern_result
 
         # Quick heuristic: guard against conclusions introducing new terms
+        # Quick check: conclusion should not introduce new terms beyond premises
         premise_terms = set()
         for prem in argument.premises:
             premise_terms.update(self._extract_terms(prem))
@@ -381,6 +395,8 @@ class LogicEngine:
                 i += 1  # Skip whitespace, etc.
 
         return tokens
+        token_pattern = r"(→|∧|∨|¬|↔|\(|\)|[A-Za-z][A-Za-z0-9_]*(?:\([^()]*\))?)"
+        return [match.group(0) for match in re.finditer(token_pattern, expression)]
 
     def _truth_table_validate(self, argument: LogicalArgument) -> Optional[ValidationResult]:
         """
@@ -476,7 +492,7 @@ class LogicEngine:
 
         try:
             return eval(eval_expr)
-        except:
+        except Exception:
             # Parse error - return False (safe default)
             return False
 
@@ -501,9 +517,6 @@ class LogicEngine:
 
         This is NOT deterministic - lower confidence.
         """
-        # Simple heuristics
-        confidence = 0.5
-
         # Heuristic 1: Check if conclusion mentions terms not in premises
         premise_terms = set()
         for prem in argument.premises:
