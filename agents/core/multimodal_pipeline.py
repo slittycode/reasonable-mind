@@ -51,13 +51,13 @@ class ModalityInput:
         if not self.content_id:
             # Generate ID from content hash
             if isinstance(self.content, str):
-                self.content_id = hashlib.md5(self.content.encode()).hexdigest()[:12]
+                self.content_id = hashlib.sha256(self.content.encode()).hexdigest()[:12]
             elif isinstance(self.content, bytes):
-                self.content_id = hashlib.md5(self.content).hexdigest()[:12]
+                self.content_id = hashlib.sha256(self.content).hexdigest()[:12]
             else:
-                self.content_id = hashlib.md5(str(self.content).encode()).hexdigest()[
-                    :12
-                ]
+                self.content_id = hashlib.sha256(
+                    str(self.content).encode()
+                ).hexdigest()[:12]
 
 
 @dataclass
@@ -175,7 +175,7 @@ class MockTextEncoder(EmbeddingEncoder):
         return EmbeddingVector(
             vector=vector,
             modality=ModalityType.TEXT,
-            source_id=hashlib.md5(content.encode()).hexdigest()[:12],
+            source_id=hashlib.sha256(content.encode()).hexdigest()[:12],
             model_name="mock_text_encoder",
         )
 
@@ -211,7 +211,7 @@ class MockImageEncoder(EmbeddingEncoder):
             val = (h[byte_idx] / 127.5) - 1.0
             vector.append(val)
 
-        source_id = hashlib.md5(
+        source_id = hashlib.sha256(
             content.encode() if isinstance(content, str) else content
         ).hexdigest()[:12]
 

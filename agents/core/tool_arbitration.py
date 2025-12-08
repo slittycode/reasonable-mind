@@ -437,7 +437,7 @@ class ToolArbitrator:
             str(sorted(candidates) if candidates else "all"),
             str(sorted(required_capabilities) if required_capabilities else "none"),
         ]
-        return hashlib.md5(":".join(parts).encode()).hexdigest()
+        return hashlib.sha256(":".join(parts).encode()).hexdigest()
 
     def _get_cached(self, key: str) -> Optional[ToolRecommendation]:
         """Get cached result if not expired."""

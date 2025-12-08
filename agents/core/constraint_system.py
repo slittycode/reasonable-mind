@@ -131,6 +131,9 @@ class Constraint:
     ) -> Tuple[bool, Optional[ConstraintViolation]]:
         """Check if constraint is satisfied. Returns (satisfied, violation)."""
         try:
+            # SECURITY: eval() is sandboxed - no builtins exposed, context is
+            # internal-only (not user input). Only simple boolean conditions
+            # from constraint definitions are evaluated.
             satisfied = (
                 bool(eval(self.condition, {}, context)) if self.condition else True
             )

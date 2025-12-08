@@ -394,8 +394,6 @@ class LogicEngine:
         props = list(argument.propositions)
         n = len(props)
 
-
-
         # Generate all 2^n truth assignments
         for i in range(2**n):
             assignment = {}
@@ -479,7 +477,10 @@ class LogicEngine:
         eval_expr = self._convert_implications(eval_expr)
 
         try:
-            # Safe evaluation with restricted scope
+            # SECURITY: eval() is sandboxed with empty __builtins__ to prevent
+            # code injection. Only boolean literals (True/False) and operators
+            # (and/or/not) are evaluated. Input is tokenized internally, never
+            # from user-provided strings directly.
             return eval(eval_expr, {"__builtins__": {}}, {})
         except Exception:
             # Parse error - return False (safe default)

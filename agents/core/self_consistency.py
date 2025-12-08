@@ -50,7 +50,7 @@ class ReasoningChain:
     def fingerprint(self) -> str:
         """Generate fingerprint for deduplication."""
         content = f"{self.conclusion}::{':'.join(self.steps)}"
-        return hashlib.md5(content.encode()).hexdigest()[:16]
+        return hashlib.sha256(content.encode()).hexdigest()[:16]
 
 
 @dataclass
@@ -227,7 +227,7 @@ class SelfConsistencyVoter:
     def _compute_cache_key(self, chains: List[ReasoningChain]) -> str:
         """Compute cache key from chain fingerprints."""
         fps = sorted(c.fingerprint() for c in chains)
-        return hashlib.md5(":".join(fps).encode()).hexdigest()
+        return hashlib.sha256(":".join(fps).encode()).hexdigest()
 
     def _get_cached(self, key: str) -> Optional[ConsistencyResult]:
         """Get cached result if not expired."""

@@ -287,7 +287,7 @@ class ThreatDetector:
     def detect(self, text: str) -> List[ThreatDetection]:
         """Detect threats in text."""
         detections = []
-        input_hash = hashlib.md5(text.encode()).hexdigest()[:16]
+        input_hash = hashlib.sha256(text.encode()).hexdigest()[:16]
 
         for pattern in self.library.patterns.values():
             detection = self._check_pattern(text, pattern, input_hash)

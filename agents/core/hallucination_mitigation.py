@@ -111,7 +111,7 @@ class ClaimExtractor:
         for idx, sentence in enumerate(sentences):
             if self._is_factual_claim(sentence):
                 claim = Claim(
-                    claim_id=f"claim_{idx}_{hashlib.md5(sentence.encode()).hexdigest()[:8]}",
+                    claim_id=f"claim_{idx}_{hashlib.sha256(sentence.encode()).hexdigest()[:8]}",
                     text=sentence.strip(),
                     source="generated",
                     confidence=self._estimate_confidence(sentence),
@@ -356,7 +356,7 @@ class ClaimVerifier:
         Token optimization: Uses caching and early termination.
         """
         # Check cache
-        cache_key = hashlib.md5(claim.text.encode()).hexdigest()
+        cache_key = hashlib.sha256(claim.text.encode()).hexdigest()
         cached = self._get_cached(cache_key)
         if cached is not None:
             self._cache_hits += 1
