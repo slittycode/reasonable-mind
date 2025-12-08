@@ -12,7 +12,11 @@ from datetime import datetime
 import time
 
 from agents.core.calibration_system import CalibrationSystem
-from agents.core.latency_control import LatencyTracker, CircuitBreaker, LatencyMeasurement
+from agents.core.latency_control import (
+    LatencyTracker,
+    CircuitBreaker,
+    LatencyMeasurement,
+)
 from agents.core.feedback_system import FeedbackLoop
 from agents.core.config import (
     CIRCUIT_BREAKER_FAILURE_THRESHOLD,
@@ -309,7 +313,7 @@ class ReasoningAgent:
         self.latency = LatencyTracker()
         self.circuit_breaker = CircuitBreaker(
             failure_threshold=CIRCUIT_BREAKER_FAILURE_THRESHOLD,
-            recovery_timeout_seconds=CIRCUIT_BREAKER_RECOVERY_TIMEOUT
+            recovery_timeout_seconds=CIRCUIT_BREAKER_RECOVERY_TIMEOUT,
         )
         self.feedback = FeedbackLoop()
 
@@ -364,7 +368,7 @@ class ReasoningAgent:
 
             # Step 5: Build result
             raw_confidence = formal_argument.overall_confidence
-            
+
             # Calibration: Adjust raw confidence
             calibrated_confidence = self.calibration.calibrate(raw_confidence)
 
@@ -426,7 +430,7 @@ class ReasoningAgent:
                 if result["proved"]
                 else "\nProof status: unproven/heuristic"
             )
-            
+
             # Feedback: Record the decision
             self.feedback.record_decision(
                 decision_type="reasoning_conclusion",
@@ -434,7 +438,7 @@ class ReasoningAgent:
                 alternatives=[],
                 scores={},
                 confidence=result["formal_argument"].overall_confidence,
-                context={"query": query, "steps": len(self.reasoning_chain)}
+                context={"query": query, "steps": len(self.reasoning_chain)},
             )
 
             if self.verbose:
@@ -453,7 +457,7 @@ class ReasoningAgent:
                 LatencyMeasurement(
                     component="reasoning_agent",
                     duration_ms=duration_ms,
-                    success=success
+                    success=success,
                 )
             )
 
