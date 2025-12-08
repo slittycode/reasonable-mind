@@ -2,7 +2,13 @@
 
 A neuro-symbolic reasoning framework combining rigorous logical foundations with extended thinking capabilities.
 
+
+## Project Intent & Mission
+
+The goal of **Reasonable Mind** is to bridge the gap between deterministic logic systems and probabilistic LLMs. It is designed to be a robust, production-ready framework for building high-reliability agents that can reason, plan, and act with quantifiable confidence. This repository serves as the canonical reference implementation for this architecture.
+
 ## Overview
+
 
 Reasonable Mind is a modular agent architecture that implements:
 
