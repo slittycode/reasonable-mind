@@ -4,18 +4,17 @@
   "description": "Critical thinking training interface",
   "main": "index.html",
   "scripts": {
-    "start": "http-server -p 8080",
-    "dev": "live-server --port=8080",
+    "start": "serve -p 8080",
+    "dev": "serve -p 8080",
     "test": "npm run test-puppeteer && npm run test-integration",
     "test-puppeteer": "node tests/puppeteer_test.js",
     "test-integration": "node tests/integration_test.js"
   },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "serve": "^14.2.4"
   },
   "devDependencies": {
-    "live-server": "^1.2.2",
-    "puppeteer": "^21.6.0"
+    "puppeteer": "^24.0.0"
   },
   "license": "MIT"
 }
