@@ -9,6 +9,15 @@ Frontend: Logic-based knowledge system (formal reasoning, argument chains)
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
+import time
+
+from agents.core.calibration_system import CalibrationSystem
+from agents.core.latency_control import LatencyTracker, CircuitBreaker, LatencyMeasurement
+from agents.core.feedback_system import FeedbackLoop
+from agents.core.config import (
+    CIRCUIT_BREAKER_FAILURE_THRESHOLD,
+    CIRCUIT_BREAKER_RECOVERY_TIMEOUT,
+)
 
 from .knowledge_base import (
     KnowledgeBase,
@@ -20,6 +29,7 @@ from .knowledge_base import (
 
 
 @dataclass
+# ... (ReasoningStep and FormalArgument dataclasses remain unchanged) ...
 class ReasoningStep:
     """Represents one step in a logical argument chain."""
 
@@ -294,6 +304,15 @@ class ReasoningAgent:
         self.argument_builder = ArgumentBuilder(logic_system=logic_framework)
         self.reasoning_chain: List[ReasoningStep] = []
 
+        # Core Enhancements (Phase 2)
+        self.calibration = CalibrationSystem()
+        self.latency = LatencyTracker()
+        self.circuit_breaker = CircuitBreaker(
+            failure_threshold=CIRCUIT_BREAKER_FAILURE_THRESHOLD,
+            recovery_timeout_seconds=CIRCUIT_BREAKER_RECOVERY_TIMEOUT
+        )
+        self.feedback = FeedbackLoop()
+
     def reason(
         self,
         query: str,
@@ -302,110 +321,141 @@ class ReasoningAgent:
     ) -> Dict[str, Any]:
         """
         Execute extended reasoning on a query.
-
-        Process:
-        1. Decompose query into sub-problems
-        2. For each sub-problem, build reasoning chain
-        3. Validate against knowledge base
-        4. Synthesize into formal argument
-        5. Return both ML reasoning and logic representation
-
-        Args:
-            query: The question or problem
-            context: Additional context
-            options: Possible answers to evaluate
-
-        Returns:
-            Dict with conclusion, reasoning chain, formal argument, confidence
         """
-        if self.verbose:
-            print(f"\n[{self.name}] Reasoning about: {query}\n")
+        # Circuit Breaker Check
+        can_execute, cb_state = self.circuit_breaker.can_execute("reasoning_agent")
+        if not can_execute:
+            return {
+                "error": "Service unavailable due to circuit breaker",
+                "circuit_state": cb_state.value,
+                "confidence": 0.0,
+                "conclusion": "System overloaded or failing",
+                "warnings": ["Circuit breaker is OPEN"],
+            }
 
-        # Step 1: Decompose query
-        sub_problems = self._decompose(query, context)
+        start_time = time.time()
+        success = False
 
-        # Step 2: Build reasoning chain
-        self.reasoning_chain = []
-        for problem in sub_problems:
-            step = self._reason_step(problem)
-            self.reasoning_chain.append(step)
+        try:
+            if self.verbose:
+                print(f"\n[{self.name}] Reasoning about: {query}\n")
 
-        # Step 3: Synthesize formal argument
-        formal_argument = self.argument_builder.build_argument(self.reasoning_chain)
+            # Step 1: Decompose query
+            sub_problems = self._decompose(query, context)
 
-        # Step 4: Validate against knowledge base
-        validation = self.knowledge_base.validate_with_contradiction_check(
-            formal_argument.conclusion.natural_language
-        )
-        if (not validation.valid or not validation.sources) and query:
-            # Fallback: validate the original query if conclusion parsing drifted
-            fallback = self.knowledge_base.validate_with_contradiction_check(query)
-            if fallback.valid or fallback.sources:
-                validation = fallback
+            # Step 2: Build reasoning chain
+            self.reasoning_chain = []
+            for problem in sub_problems:
+                step = self._reason_step(problem)
+                self.reasoning_chain.append(step)
 
-        # Step 5: Build result
-        result = {
-            "conclusion": formal_argument.conclusion.natural_language,
-            "formal_conclusion": formal_argument.conclusion.formal_notation,
-            "reasoning_chain": [
-                {
-                    "premise": step.premise,
-                    "rule": step.inference_rule.value,
-                    "conclusion": step.conclusion,
-                    "confidence": step.confidence,
-                }
-                for step in self.reasoning_chain
-            ],
-            "formal_argument": formal_argument,
-            "confidence": formal_argument.overall_confidence,
-            "knowledge_validation": {
-                "valid": validation.valid,
-                "confidence": validation.confidence,
-                "sources": validation.sources,
-                "reasoning_chain": validation.reasoning_chain,
-            },
-            "knowledge_used": formal_argument.cited_facts,
-            "ml_reasoning_trace": self._get_ml_trace(),
-            "proved": all(step.confidence >= 0.8 for step in self.reasoning_chain),
-        }
+            # Step 3: Synthesize formal argument
+            formal_argument = self.argument_builder.build_argument(self.reasoning_chain)
 
-        # Step 6: Apply hallucination guard (confidence adjustment + warnings)
-        guard = self._hallucination_guard(result)
-        result["confidence"] = guard["adjusted_confidence"]
-        result["hallucination_guard"] = guard
-        result["warnings"] = guard["warnings"]
-
-        # Evidence enforcement: fail-closed on missing validation/sources
-        if not validation.valid or not validation.sources:
-            result["conclusion"] = "No answer: insufficient evidence"
-            result["warnings"].append(
-                "Insufficient evidence to support conclusion (no sources or validation failed)."
+            # Step 4: Validate against knowledge base
+            validation = self.knowledge_base.validate_with_contradiction_check(
+                formal_argument.conclusion.natural_language
             )
-            result["confidence"] = min(result["confidence"], 0.1)
-            result["verified"] = False
-        else:
-            # Boost slightly when well-cited and validated
-            result["confidence"] = min(
-                1.0, result["confidence"] * (1.05 if validation.valid else 1.0)
+            if (not validation.valid or not validation.sources) and query:
+                # Fallback: validate the original query if conclusion parsing drifted
+                fallback = self.knowledge_base.validate_with_contradiction_check(query)
+                if fallback.valid or fallback.sources:
+                    validation = fallback
+
+            # Step 5: Build result
+            raw_confidence = formal_argument.overall_confidence
+            
+            # Calibration: Adjust raw confidence
+            calibrated_confidence = self.calibration.calibrate(raw_confidence)
+
+            result = {
+                "conclusion": formal_argument.conclusion.natural_language,
+                "formal_conclusion": formal_argument.conclusion.formal_notation,
+                "reasoning_chain": [
+                    {
+                        "premise": step.premise,
+                        "rule": step.inference_rule.value,
+                        "conclusion": step.conclusion,
+                        "confidence": step.confidence,
+                    }
+                    for step in self.reasoning_chain
+                ],
+                "formal_argument": formal_argument,
+                "confidence": calibrated_confidence,
+                "raw_confidence": raw_confidence,  # Keep original for observability
+                "knowledge_validation": {
+                    "valid": validation.valid,
+                    "confidence": validation.confidence,
+                    "sources": validation.sources,
+                    "reasoning_chain": validation.reasoning_chain,
+                },
+                "knowledge_used": formal_argument.cited_facts,
+                "ml_reasoning_trace": self._get_ml_trace(),
+                "proved": all(step.confidence >= 0.8 for step in self.reasoning_chain),
+            }
+
+            # Step 6: Apply hallucination guard (confidence adjustment + warnings)
+            guard = self._hallucination_guard(result)
+            result["confidence"] = guard["adjusted_confidence"]
+            result["hallucination_guard"] = guard
+            result["warnings"] = guard["warnings"]
+
+            # Evidence enforcement: fail-closed on missing validation/sources
+            if not validation.valid or not validation.sources:
+                result["conclusion"] = "No answer: insufficient evidence"
+                result["warnings"].append(
+                    "Insufficient evidence to support conclusion (no sources or validation failed)."
+                )
+                result["confidence"] = min(result["confidence"], 0.1)
+                result["verified"] = False
+            else:
+                # Boost slightly when well-cited and validated
+                result["confidence"] = min(
+                    1.0, result["confidence"] * (1.05 if validation.valid else 1.0)
+                )
+                result["verified"] = True
+
+            # Downstream consumers: propagate verification/warnings into formal argument
+            result["formal_argument"].overall_confidence = result["confidence"]
+            if result["warnings"]:
+                result[
+                    "formal_argument"
+                ].argument_structure += f"\nWarnings: {'; '.join(result['warnings'])}"
+            result["formal_argument"].argument_structure += (
+                "\nProof status: proved"
+                if result["proved"]
+                else "\nProof status: unproven/heuristic"
             )
-            result["verified"] = True
+            
+            # Feedback: Record the decision
+            self.feedback.record_decision(
+                decision_type="reasoning_conclusion",
+                chosen_option=result["conclusion"],
+                alternatives=[],
+                scores={},
+                confidence=result["formal_argument"].overall_confidence,
+                context={"query": query, "steps": len(self.reasoning_chain)}
+            )
 
-        # Downstream consumers: propagate verification/warnings into formal argument
-        result["formal_argument"].overall_confidence = result["confidence"]
-        if result["warnings"]:
-            result[
-                "formal_argument"
-            ].argument_structure += f"\nWarnings: {'; '.join(result['warnings'])}"
-        result["formal_argument"].argument_structure += (
-            "\nProof status: proved"
-            if result["proved"]
-            else "\nProof status: unproven/heuristic"
-        )
+            if self.verbose:
+                self._print_result(result)
 
-        if self.verbose:
-            self._print_result(result)
+            success = True
+            return result
 
-        return result
+        except Exception as e:
+            self.circuit_breaker.record_failure("reasoning_agent")
+            raise e
+        finally:
+            # Latency Logging
+            duration_ms = (time.time() - start_time) * 1000
+            self.latency.record(
+                LatencyMeasurement(
+                    component="reasoning_agent",
+                    duration_ms=duration_ms,
+                    success=success
+                )
+            )
 
     def _decompose(self, query: str, context: Optional[str]) -> List[str]:
         """
