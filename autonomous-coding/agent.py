@@ -10,11 +10,9 @@ from pathlib import Path
 from typing import Optional
 
 from claude_code_sdk import ClaudeSDKClient
-
 from client import create_client
-from progress import print_session_header, print_progress_summary
-from prompts import get_initializer_prompt, get_coding_prompt, copy_spec_to_project
-
+from progress import print_progress_summary, print_session_header
+from prompts import copy_spec_to_project, get_coding_prompt, get_initializer_prompt
 
 # Configuration
 AUTO_CONTINUE_DELAY_SECONDS = 3

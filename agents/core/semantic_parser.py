@@ -9,10 +9,10 @@ Better parsing/grounding with:
 - Fallback strategies when parsing fails
 """
 
-from typing import Dict, List, Optional, Set
+import re
 from dataclasses import dataclass, field
 from enum import Enum
-import re
+from typing import Dict, List, Optional, Set
 
 
 class QuantifierType(Enum):

@@ -6,20 +6,21 @@ and error handling mechanisms using actual API.
 """
 
 import pytest
+
 from agents.core.safety_system import (
-    PIIDetector,
     ContentPolicyChecker,
-    InputSanitizer,
-    SafetyGate,
-    OutputGuard,
+    ErrorCategory,
     ErrorHandler,
     ErrorSeverity,
-    ErrorCategory,
-    RecoveryAction,
+    InputSanitizer,
+    OutputGuard,
+    PIIDetector,
     PolicyType,
-    StructuredError,
     PolicyViolation,
+    RecoveryAction,
+    SafetyGate,
     SanitizationResult,
+    StructuredError,
 )
 
 

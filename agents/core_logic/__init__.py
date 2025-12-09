@@ -25,28 +25,27 @@ Usage:
     syl_result = cat_engine.validate(syllogism)
 """
 
-from .logic_engine import (
-    LogicEngine,
-    LogicForm,
-    TruthValue,
-    Proposition,
-    LogicalArgument,
-    ValidationResult,
-    parse_argument,
-    validate_modus_ponens,
-    validate_modus_tollens,
-)
-
 from .categorical_engine import (
     CategoricalEngine,
-    StatementType,
-    Figure,
     CategoricalStatement,
+    Figure,
+    StatementType,
     Syllogism,
     SyllogismValidation,
     parse_categorical_statement,
     parse_syllogism,
     validate_barbara,
+)
+from .logic_engine import (
+    LogicalArgument,
+    LogicEngine,
+    LogicForm,
+    Proposition,
+    TruthValue,
+    ValidationResult,
+    parse_argument,
+    validate_modus_ponens,
+    validate_modus_tollens,
 )
 
 __all__ = [

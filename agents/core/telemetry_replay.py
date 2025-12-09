@@ -8,12 +8,12 @@ Provides session logging and replay capabilities:
 - Debugging and analysis tools
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Iterator, Union
+import json
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from abc import ABC, abstractmethod
-import json
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 
 class EventType(Enum):

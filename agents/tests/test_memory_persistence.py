@@ -5,23 +5,25 @@ Tests storage backends (SQLite, JSON, In-Memory), snapshot management,
 consolidation strategies, and data integrity using actual API.
 """
 
-import pytest
 import tempfile
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
+import pytest
+
 from agents.core.memory_persistence import (
-    PersistentMemoryManager,
-    StorageBackend,
+    ConsolidationResult,
     ConsolidationStrategy,
     InMemoryBackend,
-    SQLiteBackend,
     JSONFileBackend,
     MemorySnapshot,
-    ConsolidationResult,
     PersistenceConfig,
-    create_volatile_memory,
-    create_sqlite_memory,
+    PersistentMemoryManager,
+    SQLiteBackend,
+    StorageBackend,
     create_json_memory,
+    create_sqlite_memory,
+    create_volatile_memory,
 )
 
 

@@ -10,41 +10,41 @@ Tests:
 All imports are relative to the governed module.
 """
 
-import pytest
 import json
-import tempfile
 import shutil
-from pathlib import Path
+import tempfile
 from datetime import datetime, timezone
+from pathlib import Path
+
+import pytest
 
 from ..constraint_loader import (
     ConstraintLoader,
+    InheritanceError,
     LoadedProfile,
     ProfileNotFoundError,
     ProfileValidationError,
-    InheritanceError,
 )
 from ..execution_proxy import (
-    ExecutionProxy,
-    ExecutionMode,
-    Decision,
     ActionType,
-)
-from ..plan_validator import (
-    PlanValidator,
-    Plan,
-    PlanStep,
-    ValidationResult,
-    ActionCategory,
+    Decision,
+    ExecutionMode,
+    ExecutionProxy,
 )
 from ..persona_lock import (
-    PersonaLock,
+    AgentType,
     PersonaContext,
+    PersonaLock,
     PersonaLockViolation,
     PersonaMismatchViolation,
-    AgentType,
 )
-
+from ..plan_validator import (
+    ActionCategory,
+    Plan,
+    PlanStep,
+    PlanValidator,
+    ValidationResult,
+)
 
 # ==================== Fixtures ====================
 

@@ -11,13 +11,14 @@ This test suite enforces architectural invariants and prevents layer violations.
 Updated to match current API.
 """
 
-import pytest
-import inspect
 import importlib
-from pathlib import Path
-from typing import List, Dict, Any, Set
+import inspect
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Set
+
+import pytest
 
 
 class ArchitecturalLayer(Enum):
@@ -309,7 +310,7 @@ class TestUserLayerCompliance:
     @pytest.mark.unit
     def test_user_can_select_perspectives(self):
         """User must be able to select reasoning perspectives."""
-        from agents.core.role_system import RoleRegistry, RoleAdapter
+        from agents.core.role_system import RoleAdapter, RoleRegistry
 
         registry = RoleRegistry()
         adapter = RoleAdapter(registry)
@@ -452,8 +453,8 @@ class TestSpecificationCompliance:
     @pytest.mark.unit
     def test_invalid_logic_blocks_synthesis(self):
         """Invalid logic must block synthesis - core safety invariant."""
-        from agents.core.logic_engine import LogicEngine
         from agents.core.decision_model import DecisionModel, DecisionOption
+        from agents.core.logic_engine import LogicEngine
 
         logic = LogicEngine()
         model = DecisionModel()
@@ -484,8 +485,8 @@ class TestSpecificationCompliance:
     @pytest.mark.unit
     def test_ai_respects_logic(self):
         """AI must respect logical frame - cannot override valid logic."""
-        from agents.core.logic_engine import LogicEngine
         from agents.core.critic_system import CriticSystem
+        from agents.core.logic_engine import LogicEngine
 
         logic = LogicEngine()
         critic = CriticSystem()
@@ -529,8 +530,8 @@ class TestSpecificationCompliance:
     @pytest.mark.integration
     def test_emergent_reason(self):
         """Reason emerges from triadic interaction."""
-        from agents.core.logic_engine import LogicEngine
         from agents.core.critic_system import CriticSystem
+        from agents.core.logic_engine import LogicEngine
         from agents.core.role_system import RoleAdapter, RoleRegistry
 
         # Logic layer (skeleton)
@@ -614,8 +615,8 @@ class TestMetaphysicalPrinciples:
     @pytest.mark.unit
     def test_reason_is_emergent(self):
         """Reason emerges from triadic interaction, not any single layer."""
-        from agents.core.logic_engine import LogicEngine
         from agents.core.critic_system import CriticSystem
+        from agents.core.logic_engine import LogicEngine
         from agents.core.role_system import RoleRegistry
 
         # Each layer exists independently

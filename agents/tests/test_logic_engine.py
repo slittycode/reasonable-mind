@@ -5,7 +5,8 @@ Tests valid and invalid argument forms with deterministic verification.
 """
 
 import pytest
-from agents.core.logic_engine import LogicEngine, ArgumentForm, LogicResult
+
+from agents.core.logic_engine import ArgumentForm, LogicEngine, LogicResult
 
 
 class TestLogicEngine:

@@ -11,9 +11,7 @@ from pathlib import Path
 
 from claude_code_sdk import ClaudeCodeOptions, ClaudeSDKClient
 from claude_code_sdk.types import HookMatcher
-
 from security import bash_security_hook
-
 
 # Puppeteer MCP tools for browser automation
 PUPPETEER_TOOLS = [

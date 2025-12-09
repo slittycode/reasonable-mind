@@ -8,7 +8,6 @@ import shlex
 from dataclasses import dataclass, field
 from typing import Iterable, List, Set
 
-
 DEFAULT_ALLOWED_COMMANDS: Set[str] = {
     # File inspection
     "ls",

@@ -9,7 +9,6 @@ Uses an allowlist approach - only explicitly permitted commands can run.
 import os
 import shlex
 
-
 # Allowed commands for development tasks
 # Minimal set needed for the autonomous coding demo
 ALLOWED_COMMANDS = {

@@ -8,12 +8,12 @@ Implements:
 - Hallucination guards with citation thresholds
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Set
+import math
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import math
-import re
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 class SourceType(Enum):

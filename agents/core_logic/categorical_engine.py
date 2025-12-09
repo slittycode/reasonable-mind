@@ -10,10 +10,10 @@ Validates categorical syllogisms using:
 Part of the deterministic foundation layer.
 """
 
-from typing import List, Optional
+from collections import Counter
 from dataclasses import dataclass
 from enum import Enum
-from collections import Counter
+from typing import List, Optional
 
 
 class StatementType(Enum):

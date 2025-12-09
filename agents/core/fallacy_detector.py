@@ -8,9 +8,9 @@ Implements comprehensive fallacy database with 25+ patterns:
 - Formal fallacies (affirming consequent, denying antecedent)
 """
 
-from typing import List, Dict, Optional
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
+from typing import Dict, List, Optional
 
 
 class FallacyCategory(Enum):

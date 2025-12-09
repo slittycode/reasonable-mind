@@ -1,23 +1,24 @@
 """Tests for governance framework components."""
 
-import pytest
 from pathlib import Path
 
-from agents.governance.process_gate import ProcessGate, ProcessStage, StageResult
-from agents.governance.registry import ConstraintRegistry, ConstraintProfile
+import pytest
+
 from agents.governance.execution_proxy import (
-    ExecutionProxy,
-    ExecutionMode,
-    ExecutionResult,
     ExecutionContext,
+    ExecutionMode,
+    ExecutionProxy,
+    ExecutionResult,
     create_execution_context,
 )
 from agents.governance.plan_validator import (
-    PlanValidator,
     Plan,
     PlanStep,
+    PlanValidator,
     ViolationType,
 )
+from agents.governance.process_gate import ProcessGate, ProcessStage, StageResult
+from agents.governance.registry import ConstraintProfile, ConstraintRegistry
 
 
 class TestProcessGate:

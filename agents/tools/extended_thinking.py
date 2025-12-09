@@ -6,7 +6,7 @@ Optional reasoning modules (such as Watson Glaser critical thinking) can be embe
 to add specialized perspectives without changing the core workflow.
 """
 
-from typing import Dict, List, Any, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 
 
 class ExtendedThinkingTool:

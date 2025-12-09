@@ -6,29 +6,29 @@ Backend: Machine learning (extended thinking, tool use)
 Frontend: Logic-based knowledge system (formal reasoning, argument chains)
 """
 
-from typing import List, Dict, Any, Optional
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
-import time
+from typing import Any, Dict, List, Optional
 
 from agents.core.calibration_system import CalibrationSystem
-from agents.core.latency_control import (
-    LatencyTracker,
-    CircuitBreaker,
-    LatencyMeasurement,
-)
-from agents.core.feedback_system import FeedbackLoop
 from agents.core.config import (
     CIRCUIT_BREAKER_FAILURE_THRESHOLD,
     CIRCUIT_BREAKER_RECOVERY_TIMEOUT,
 )
+from agents.core.feedback_system import FeedbackLoop
+from agents.core.latency_control import (
+    CircuitBreaker,
+    LatencyMeasurement,
+    LatencyTracker,
+)
 
 from .knowledge_base import (
-    KnowledgeBase,
-    LogicType,
-    InferenceRule,
     Fact,
+    InferenceRule,
+    KnowledgeBase,
     LogicalStatement,
+    LogicType,
 )
 
 

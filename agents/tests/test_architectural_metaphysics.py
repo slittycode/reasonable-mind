@@ -11,16 +11,18 @@ These tests validate architectural invariants and separation of concerns.
 Updated to match current API.
 """
 
+from typing import Any, Dict, List
+
 import pytest
-from typing import List, Dict, Any
-from agents.core.logic_engine import LogicEngine, ArgumentForm, LogicResult
-from agents.core.inference_engine import InferenceEngine, InferenceResult
-from agents.core.debate_system import EnhancedDebateSystem, ArgumentNode
-from agents.core.critic_system import CriticSystem, CritiqueResult
-from agents.core.decision_model import DecisionModel, DecisionResult
-from agents.core.role_system import RoleBasedReasoner, RolePersona
+
 from agents.core.clarification_system import ClarificationManager
 from agents.core.constraint_system import ConstraintEngine
+from agents.core.critic_system import CriticSystem, CritiqueResult
+from agents.core.debate_system import ArgumentNode, EnhancedDebateSystem
+from agents.core.decision_model import DecisionModel, DecisionResult
+from agents.core.inference_engine import InferenceEngine, InferenceResult
+from agents.core.logic_engine import ArgumentForm, LogicEngine, LogicResult
+from agents.core.role_system import RoleBasedReasoner, RolePersona
 
 
 class TestLogicLayerSkeleton:
@@ -218,8 +220,8 @@ class TestUserLayerHeart:
         # Use the actual Constraint API
         from agents.core.constraint_system import (
             Constraint,
-            ConstraintType,
             ConstraintPriority,
+            ConstraintType,
         )
 
         user_constraint = Constraint(
@@ -357,8 +359,9 @@ class TestArchitecturalInvariants:
     @pytest.mark.unit
     def test_logic_has_no_ai_dependency(self):
         """Logic modules must not import AI modules."""
-        import agents.core.logic_engine as logic_module
         import inspect
+
+        import agents.core.logic_engine as logic_module
 
         source = inspect.getsource(logic_module)
 
@@ -375,8 +378,9 @@ class TestArchitecturalInvariants:
     @pytest.mark.unit
     def test_logic_has_no_user_dependency(self):
         """Logic modules must not import User modules."""
-        import agents.core.logic_engine as logic_module
         import inspect
+
+        import agents.core.logic_engine as logic_module
 
         source = inspect.getsource(logic_module)
 
@@ -394,16 +398,18 @@ class TestArchitecturalInvariants:
     @pytest.mark.unit
     def test_ai_can_import_logic(self):
         """AI modules MAY import Logic modules (allowed dependency)."""
-        import agents.core.critic_system as critic_module
         import inspect
+
+        import agents.core.critic_system as critic_module
 
         source = inspect.getsource(critic_module)
 
     @pytest.mark.unit
     def test_synthesis_can_import_all_layers(self):
         """Synthesis modules may import Logic + AI + User."""
-        import agents.core.decision_model as decision_module
         import inspect
+
+        import agents.core.decision_model as decision_module
 
         source = inspect.getsource(decision_module)
 
@@ -480,7 +486,7 @@ class TestAntiPatterns:
     @pytest.mark.unit
     def test_no_bypass_user_confirmation(self, decision_model):
         """System must not execute high-stakes decisions without user approval."""
-        from agents.core.decision_model import DecisionOption, ScoredInput, RiskLevel
+        from agents.core.decision_model import DecisionOption, RiskLevel, ScoredInput
 
         options = [
             DecisionOption(

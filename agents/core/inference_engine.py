@@ -8,10 +8,10 @@ Expands on the rule engine with:
 - Proof-or-flag mechanism
 """
 
-from typing import List, Dict, Any, Optional, Tuple
+import re
 from dataclasses import dataclass, field
 from enum import Enum
-import re
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class InferencePattern(Enum):

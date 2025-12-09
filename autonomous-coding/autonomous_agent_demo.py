@@ -19,7 +19,6 @@ from pathlib import Path
 
 from agent import run_autonomous_agent
 
-
 # Configuration
 DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
 

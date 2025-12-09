@@ -7,7 +7,6 @@ from importlib import import_module
 # ``agents.governance`` to be imported in environments where the SDK is not
 # installed, while still providing the same public API when users access
 # ``Agent`` or related classes directly.
-
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:

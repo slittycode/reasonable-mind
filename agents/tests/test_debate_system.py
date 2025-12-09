@@ -6,21 +6,22 @@ consensus mechanisms, and quality scoring.
 """
 
 import pytest
+
 from agents.core.debate_system import (
-    EnhancedDebateSystem,
-    ArgumentBuilder,
-    ArgumentQualityScorer,
+    AdversarialAttack,
     AdversarialGenerator,
-    MultiPerspectiveDebate,
+    ArgumentBuilder,
     ArgumentNode,
+    ArgumentQualityScorer,
     ArgumentStructure,
     ArgumentType,
     AttackType,
     ConsensusMethod,
+    ConsensusResult,
     DebateAgent,
     DebateVote,
-    AdversarialAttack,
-    ConsensusResult,
+    EnhancedDebateSystem,
+    MultiPerspectiveDebate,
 )
 
 

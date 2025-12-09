@@ -5,18 +5,20 @@ Tests confidence calibration, abstention decisions, uncertainty quantification,
 and "I don't know" responses.
 """
 
-import pytest
 import math
+
+import pytest
+
 from agents.core.uncertainty_system import (
-    UncertaintySystem,
-    ConfidenceCalibrator,
-    AbstentionPolicy,
-    ConfidenceEstimate,
     AbstentionDecision,
-    CalibrationData,
-    ConfidenceSource,
-    UncertaintyType,
+    AbstentionPolicy,
     AbstentionReason,
+    CalibrationData,
+    ConfidenceCalibrator,
+    ConfidenceEstimate,
+    ConfidenceSource,
+    UncertaintySystem,
+    UncertaintyType,
 )
 
 

@@ -8,12 +8,12 @@ Implements:
 - Adaptive curriculum progression
 """
 
-from typing import List, Dict, Any, Optional, Callable
+import statistics
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
-import statistics
+from typing import Any, Callable, Dict, List, Optional
 
 
 class DifficultyLevel(Enum):

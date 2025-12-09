@@ -8,12 +8,12 @@ Implements:
 - Confidence calibration based on critique
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Callable
+import random
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
-import random
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class CritiqueType(Enum):

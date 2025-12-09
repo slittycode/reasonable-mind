@@ -8,9 +8,9 @@ Separates two critical concepts:
 A single "confidence" score conflates these. We need separate tracking.
 """
 
-from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class ValidityStatus(Enum):

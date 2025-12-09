@@ -8,9 +8,9 @@ Implements:
 - Expertise level calibration
 """
 
-from typing import List, Dict, Any, Optional, Callable
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
 
 
 class ExpertiseLevel(Enum):

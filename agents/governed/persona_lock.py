@@ -11,11 +11,11 @@ cross-session identity verification.
 
 import hashlib
 import json
-from pathlib import Path
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, FrozenSet
-from enum import Enum
 import re
+from datetime import datetime, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, FrozenSet, Optional
 
 
 def _utc_now() -> datetime:

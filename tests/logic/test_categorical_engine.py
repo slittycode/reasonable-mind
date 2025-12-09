@@ -9,10 +9,11 @@ Tests cover:
 """
 
 import pytest
+
 from agents.core_logic import (
     CategoricalEngine,
-    StatementType,
     Figure,
+    StatementType,
     parse_categorical_statement,
     parse_syllogism,
     validate_barbara,

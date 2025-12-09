@@ -9,13 +9,13 @@ Provides adaptive learning from decision outcomes:
 - Performance trend analysis
 """
 
-from typing import List, Dict, Any, Optional, Tuple
+import json
+import statistics
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from collections import defaultdict
-import json
-import statistics
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class OutcomeType(Enum):

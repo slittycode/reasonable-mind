@@ -8,13 +8,13 @@ Provides comprehensive benchmarking for the agent system:
 - Comparison across versions
 """
 
-from typing import List, Dict, Any, Optional, Callable
+import json
+import statistics
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import time
-import statistics
-import json
+from typing import Any, Callable, Dict, List, Optional
 
 
 class BenchmarkCategory(Enum):

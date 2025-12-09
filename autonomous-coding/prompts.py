@@ -8,7 +8,6 @@ Functions for loading prompt templates from the prompts directory.
 import shutil
 from pathlib import Path
 
-
 PROMPTS_DIR = Path(__file__).parent / "prompts"
 
 

@@ -6,18 +6,19 @@ Updated to match current API (Phase 2 Enhancement).
 """
 
 import pytest
+
 from agents.core.evidence_system import (
+    CitationRequirement,
+    ConfidenceChain,
+    ConflictResolver,
+    EvidenceItem,
+    EvidenceValidation,
+    EvidenceValidator,
+    HallucinationGuard,
+    SourceProfile,
+    SourceTrustRegistry,
     SourceType,
     TrustLevel,
-    SourceProfile,
-    EvidenceItem,
-    CitationRequirement,
-    EvidenceValidation,
-    SourceTrustRegistry,
-    ConfidenceChain,
-    HallucinationGuard,
-    EvidenceValidator,
-    ConflictResolver,
 )
 
 

@@ -9,11 +9,11 @@ Provides intelligent clarification and disambiguation:
 - Context preservation during clarification
 """
 
-from typing import List, Dict, Any, Optional, Callable, Tuple
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import re
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class AmbiguityType(Enum):

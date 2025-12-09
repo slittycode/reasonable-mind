@@ -7,12 +7,13 @@ metacharacter checks, then returns an ExecutionResult describing the decision.
 """
 
 from __future__ import annotations
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Dict, List, Optional, Pattern, Set
+
 import re
 import time
 import uuid
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Dict, List, Optional, Pattern, Set
 
 
 class ExecutionMode(Enum):

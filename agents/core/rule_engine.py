@@ -8,11 +8,11 @@ Phase 2 enhancement: Stronger reasoning core with:
 - Unification and pattern matching
 """
 
-from typing import List, Dict, Any, Optional, Set
-from dataclasses import dataclass, field
-from enum import Enum
 import re
+from dataclasses import dataclass, field
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
 
 class ProofStatus(Enum):

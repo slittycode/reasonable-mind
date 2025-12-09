@@ -4,7 +4,7 @@ Simple reranker placeholder for retrieval results.
 Combines sparse/dense scores and optional provenance weight.
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 class Reranker:

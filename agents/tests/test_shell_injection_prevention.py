@@ -6,11 +6,12 @@ security patch to prevent shell injection attacks.
 """
 
 import pytest
+
 from agents.governance.execution_proxy import (
-    ExecutionProxy,
-    ExecutionMode,
-    ExecutionResult,
     ExecutionContext,
+    ExecutionMode,
+    ExecutionProxy,
+    ExecutionResult,
 )
 
 
@@ -425,9 +426,9 @@ class TestGovernanceIntegrationWithShellInjection:
     def test_plan_validator_rejects_malicious_parameters(self):
         """PlanValidator can detect malicious intent in action parameters."""
         from agents.governance.plan_validator import (
-            PlanValidator,
             Plan,
             PlanStep,
+            PlanValidator,
         )
 
         validator = PlanValidator()
@@ -458,12 +459,12 @@ class TestGovernanceIntegrationWithShellInjection:
 
     def test_execution_proxy_blocks_despite_plan_authorization(self):
         """ExecutionProxy blocks shell injection even if plan authorizes action."""
+        from agents.governance.execution_proxy import ExecutionMode, ExecutionProxy
         from agents.governance.plan_validator import (
-            PlanValidator,
             Plan,
             PlanStep,
+            PlanValidator,
         )
-        from agents.governance.execution_proxy import ExecutionProxy, ExecutionMode
 
         # Step 1: Plan authorizes shell execution
         validator = PlanValidator()

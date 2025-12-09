@@ -9,11 +9,11 @@ Provides advanced retrieval capabilities:
 - Context compression
 """
 
-from typing import List, Dict, Any, Optional, Callable
+import math
+import re
 from dataclasses import dataclass, field
 from enum import Enum
-import re
-import math
+from typing import Any, Callable, Dict, List, Optional
 
 
 class ChunkingStrategy(Enum):

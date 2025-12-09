@@ -6,21 +6,21 @@ from agents.core_logic import (
     validate_barbara,
 )
 from agents.core_logic.logic_engine import (
-    LogicEngine,
     LogicalArgument,
+    LogicEngine,
     Proposition,
 )
 from agents.governance import (
+    ConstraintRegistry,
+    ExecutionMode,
+    ExecutionProxy,
+    ExecutionResult,
+    Plan,
+    PlanStep,
+    PlanValidator,
     ProcessGate,
     ProcessStage,
     StageResult,
-    ConstraintRegistry,
-    PlanValidator,
-    Plan,
-    PlanStep,
-    ExecutionProxy,
-    ExecutionMode,
-    ExecutionResult,
     create_execution_context,
 )
 

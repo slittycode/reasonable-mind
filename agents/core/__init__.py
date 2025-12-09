@@ -7,14 +7,14 @@ This package provides the foundational logic components:
 - fallacy_detector: Pattern-based fallacy detection
 """
 
-from .logic_engine import LogicEngine, ArgumentForm, LogicResult
 from .categorical_engine import CategoricalEngine, SyllogismType
 from .fallacy_detector import (
-    FallacyDetector,
     FallacyCategory,
-    FallacySeverity,
+    FallacyDetector,
     FallacyPattern,
+    FallacySeverity,
 )
+from .logic_engine import ArgumentForm, LogicEngine, LogicResult
 
 __all__ = [
     "LogicEngine",

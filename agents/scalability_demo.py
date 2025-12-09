@@ -5,6 +5,7 @@ Compares different layer architectures with emphasis on logic prioritization.
 """
 
 import time
+
 from tools.extended_thinking import ExtendedThinkingTool
 
 

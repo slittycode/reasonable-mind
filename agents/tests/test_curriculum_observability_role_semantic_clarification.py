@@ -6,52 +6,52 @@ Updated to match current API.
 """
 
 import pytest
+
+from agents.core.clarification_system import (
+    AmbiguityDetector,
+    AmbiguityType,
+    ClarificationManager,
+    ClarificationPriority,
+    ClarifyingQuestion,
+    QuestionGenerator,
+)
 from agents.core.curriculum_system import (
     CurriculumLearner,
     DifficultyLevel,
-    EvalMetric,
     EvalExample,
-    EvalResult,
-    EvalReport,
-    Evaluator,
     EvalHarness,
+    EvalMetric,
+    EvalReport,
+    EvalResult,
+    Evaluator,
 )
 from agents.core.observability_system import (
-    ObservabilitySystem,
-    MetricsRegistry,
-    Tracer,
     EventLogger,
-    TraceEvent,
-    Span,
-    Trace,
     EventType,
     LogLevel,
+    MetricsRegistry,
+    ObservabilitySystem,
+    Span,
+    Trace,
+    TraceEvent,
+    Tracer,
 )
 from agents.core.role_system import (
-    RoleBasedReasoner,
-    RoleRegistry,
-    RoleAdapter,
-    RolePersona,
-    ReasoningMode,
-    ExpertiseLevel,
     CommunicationStyle,
+    ExpertiseLevel,
+    ReasoningMode,
+    RoleAdapter,
+    RoleBasedReasoner,
+    RolePersona,
+    RoleRegistry,
 )
 from agents.core.semantic_parser import (
     EnhancedSemanticParser,
-    SemanticFrame,
+    ModalityType,
     ParseResult,
     QuantifierType,
-    ModalityType,
+    SemanticFrame,
 )
-from agents.core.clarification_system import (
-    ClarificationManager,
-    ClarifyingQuestion,
-    AmbiguityDetector,
-    QuestionGenerator,
-    AmbiguityType,
-    ClarificationPriority,
-)
-
 
 # ==================== Curriculum System Tests ====================
 

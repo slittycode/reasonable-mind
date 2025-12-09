@@ -7,14 +7,15 @@ Updated to match current API (unified RuleEngine class).
 """
 
 import pytest
+
 from agents.core.rule_engine import (
-    RuleEngine,
     Predicate,
-    Rule,
-    ProofStep,
+    PredicateParser,
     ProofResult,
     ProofStatus,
-    PredicateParser,
+    ProofStep,
+    Rule,
+    RuleEngine,
 )
 
 

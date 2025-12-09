@@ -13,10 +13,10 @@ Comprehensive tests for:
 - telemetry_replay
 """
 
-import pytest
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
+import pytest
 
 # ============================================================================
 # Multimodal Pipeline Tests
@@ -53,8 +53,8 @@ class TestMultimodalPipeline:
         """Test FusedEmbedding creation."""
         from agents.core.multimodal_pipeline import (
             FusedEmbedding,
-            ModalityType,
             FusionStrategy,
+            ModalityType,
         )
 
         fused = FusedEmbedding(
@@ -233,7 +233,7 @@ class TestToolArbitration:
 
     def test_tool_profile_creation(self):
         """Test ToolProfile creation."""
-        from agents.core.tool_arbitration import ToolProfile, ToolCategory
+        from agents.core.tool_arbitration import ToolCategory, ToolProfile
 
         profile = ToolProfile(
             tool_id="search", name="Search Tool", category=ToolCategory.RETRIEVAL
@@ -245,7 +245,7 @@ class TestToolArbitration:
 
     def test_tool_profile_update(self):
         """Test ToolProfile statistics update."""
-        from agents.core.tool_arbitration import ToolProfile, ToolCategory
+        from agents.core.tool_arbitration import ToolCategory, ToolProfile
 
         profile = ToolProfile(
             tool_id="search", name="Search Tool", category=ToolCategory.RETRIEVAL
@@ -260,10 +260,10 @@ class TestToolArbitration:
     def test_tool_arbitrator_selection(self):
         """Test ToolArbitrator selection."""
         from agents.core.tool_arbitration import (
-            ToolArbitrator,
-            ToolProfile,
-            ToolCategory,
             SelectionStrategy,
+            ToolArbitrator,
+            ToolCategory,
+            ToolProfile,
         )
 
         arbitrator = ToolArbitrator(strategy=SelectionStrategy.GREEDY)
@@ -286,7 +286,7 @@ class TestToolArbitration:
 
     def test_ucb_score(self):
         """Test UCB score computation."""
-        from agents.core.tool_arbitration import ToolProfile, ToolCategory
+        from agents.core.tool_arbitration import ToolCategory, ToolProfile
 
         profile = ToolProfile(
             tool_id="test", name="Test", category=ToolCategory.COMPUTATION
@@ -348,10 +348,10 @@ class TestRetrievalDiversity:
     def test_mmr_diversifier(self):
         """Test MMRDiversifier."""
         from agents.core.retrieval_diversity import (
-            MMRDiversifier,
-            RetrievalResult,
             Document,
+            MMRDiversifier,
             RetrievalMethod,
+            RetrievalResult,
         )
 
         diversifier = MMRDiversifier(lambda_param=0.5)
@@ -436,11 +436,11 @@ class TestSourceTrust:
     def test_conflict_resolver(self):
         """Test ConflictResolver."""
         from agents.core.source_trust import (
-            Source,
             Claim,
+            ConflictResolver,
+            Source,
             SourceCategory,
             TrustCalculator,
-            ConflictResolver,
         )
 
         calculator = TrustCalculator()
@@ -482,9 +482,9 @@ class TestHallucinationMitigation:
     def test_claim_verifier(self):
         """Test ClaimVerifier."""
         from agents.core.hallucination_mitigation import (
-            ClaimVerifier,
             Claim,
             ClaimStatus,
+            ClaimVerifier,
         )
 
         verifier = ClaimVerifier()
@@ -539,7 +539,7 @@ class TestAdversarialTesting:
 
     def test_threat_detector_jailbreak(self):
         """Test ThreatDetector with jailbreak input."""
-        from agents.core.adversarial_testing import ThreatDetector, ThreatCategory
+        from agents.core.adversarial_testing import ThreatCategory, ThreatDetector
 
         detector = ThreatDetector(sensitivity=0.2)  # Low sensitivity for testing
 
@@ -604,7 +604,7 @@ class TestTelemetryReplay:
 
     def test_telemetry_event_creation(self):
         """Test TelemetryEvent creation."""
-        from agents.core.telemetry_replay import TelemetryEvent, EventType
+        from agents.core.telemetry_replay import EventType, TelemetryEvent
 
         event = TelemetryEvent(
             event_id="evt1",
@@ -619,7 +619,7 @@ class TestTelemetryReplay:
 
     def test_telemetry_event_serialization(self):
         """Test TelemetryEvent serialization."""
-        from agents.core.telemetry_replay import TelemetryEvent, EventType
+        from agents.core.telemetry_replay import EventType, TelemetryEvent
 
         event = TelemetryEvent(
             event_id="evt1",
@@ -637,7 +637,7 @@ class TestTelemetryReplay:
 
     def test_telemetry_logger(self):
         """Test TelemetryLogger."""
-        from agents.core.telemetry_replay import TelemetryLogger, EventType
+        from agents.core.telemetry_replay import EventType, TelemetryLogger
 
         logger = TelemetryLogger()
 
@@ -664,7 +664,7 @@ class TestTelemetryReplay:
 
     def test_session_replay(self):
         """Test SessionReplay."""
-        from agents.core.telemetry_replay import TelemetryLogger, SessionReplay
+        from agents.core.telemetry_replay import SessionReplay, TelemetryLogger
 
         logger = TelemetryLogger()
 
@@ -680,7 +680,7 @@ class TestTelemetryReplay:
 
     def test_metrics_aggregator(self):
         """Test MetricsAggregator."""
-        from agents.core.telemetry_replay import TelemetryLogger, MetricsAggregator
+        from agents.core.telemetry_replay import MetricsAggregator, TelemetryLogger
 
         logger = TelemetryLogger()
 
@@ -696,7 +696,7 @@ class TestTelemetryReplay:
 
     def test_checkpoint(self):
         """Test checkpoint creation."""
-        from agents.core.telemetry_replay import TelemetryLogger, SessionReplay
+        from agents.core.telemetry_replay import SessionReplay, TelemetryLogger
 
         logger = TelemetryLogger()
 
@@ -721,7 +721,7 @@ class TestAdvancedIntegration:
 
     def test_retrieval_with_source_trust(self):
         """Test retrieval diversity with source trust."""
-        from agents.core.retrieval_diversity import Document, BM25Retriever
+        from agents.core.retrieval_diversity import BM25Retriever, Document
         from agents.core.source_trust import Source, SourceCategory
 
         # Create retrieval doc
@@ -741,8 +741,8 @@ class TestAdvancedIntegration:
 
     def test_trust_with_hallucination(self):
         """Test source trust with hallucination detection."""
-        from agents.core.source_trust import Source, SourceCategory
         from agents.core.hallucination_mitigation import Claim as HalluClaim
+        from agents.core.source_trust import Source, SourceCategory
 
         source = Source(
             source_id="test", name="Test Source", category=SourceCategory.PROFESSIONAL
@@ -760,8 +760,8 @@ class TestAdvancedIntegration:
         from agents.core.telemetry_replay import TelemetryLogger
         from agents.core.tool_arbitration import (
             ToolArbitrator,
-            ToolProfile,
             ToolCategory,
+            ToolProfile,
         )
 
         logger = TelemetryLogger()
@@ -805,8 +805,8 @@ class TestTokenOptimization:
     def test_self_consistency_caching(self):
         """Test SelfConsistencyVoter caching."""
         from agents.core.self_consistency import (
-            SelfConsistencyVoter,
             ReasoningChain,
+            SelfConsistencyVoter,
             VotingMethod,
         )
 
@@ -860,10 +860,10 @@ class TestTokenOptimization:
     def test_tool_arbitrator_caching(self):
         """Test ToolArbitrator caching."""
         from agents.core.tool_arbitration import (
-            ToolArbitrator,
-            ToolProfile,
-            ToolCategory,
             SelectionStrategy,
+            ToolArbitrator,
+            ToolCategory,
+            ToolProfile,
         )
 
         arbitrator = ToolArbitrator(
@@ -890,7 +890,7 @@ class TestTokenOptimization:
 
     def test_claim_verifier_caching(self):
         """Test ClaimVerifier caching."""
-        from agents.core.hallucination_mitigation import ClaimVerifier, Claim
+        from agents.core.hallucination_mitigation import Claim, ClaimVerifier
 
         verifier = ClaimVerifier(cache_ttl_seconds=60.0)
 

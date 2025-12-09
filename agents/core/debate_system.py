@@ -9,10 +9,10 @@ Provides advanced adversarial verification and debate:
 - Argument quality scoring
 """
 
-from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class ArgumentType(Enum):

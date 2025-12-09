@@ -8,14 +8,14 @@ Provides hallucination detection and prevention:
 - Confidence calibration for uncertain outputs
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Callable
+import hashlib
+import re
+import time
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
-import re
-import hashlib
-import time
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class ClaimStatus(Enum):

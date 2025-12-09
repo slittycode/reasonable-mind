@@ -18,19 +18,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from logic.grounding import (
-    SemanticParser,
-    SemanticContext,
-    create_ml_context,
-    QuantifierType,
-    ModalityType,
-)
 from logic.epistemic import (
-    EpistemicStatus,
     ConfidenceCalculator,
+    EpistemicStatus,
+    SoundnessStatus,
     ValidityChecker,
     ValidityStatus,
-    SoundnessStatus,
+)
+from logic.grounding import (
+    ModalityType,
+    QuantifierType,
+    SemanticContext,
+    SemanticParser,
+    create_ml_context,
 )
 
 

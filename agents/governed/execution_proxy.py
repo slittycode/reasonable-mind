@@ -12,15 +12,15 @@ Strictness B: Semi-open subprocess + restricted writes
 - push, pip install, network: blocked
 """
 
-import subprocess
-import uuid
-from pathlib import Path
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List, Callable, Union, Set
-from enum import Enum
 import fnmatch
 import re
+import subprocess
+import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Set, Union
 
 from .constraint_loader import LoadedProfile
 

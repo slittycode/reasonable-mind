@@ -9,11 +9,11 @@ Provides formal validation of propositional logic arguments using:
 This is the FOUNDATION layer - always runs before AI enhancement.
 """
 
-from typing import List, Dict, Set, Optional
+import json
 from dataclasses import dataclass
 from enum import Enum
-import json
 from pathlib import Path
+from typing import Dict, List, Optional, Set
 
 
 class LogicForm(Enum):

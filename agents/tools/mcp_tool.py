@@ -1,6 +1,7 @@
 """Tools that interface with MCP servers."""
 
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
+
 from .base import Tool
 
 if TYPE_CHECKING:

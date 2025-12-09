@@ -8,12 +8,12 @@ Episodic memory and case retrieval for:
 - Avoid repeating failed approaches
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Set
+import hashlib
+import math
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import hashlib
-import math
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 class MemoryType(Enum):

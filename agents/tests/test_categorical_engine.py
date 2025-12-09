@@ -5,10 +5,11 @@ Tests valid syllogism forms with proper term distribution.
 """
 
 import pytest
+
 from agents.core.categorical_engine import (
     CategoricalEngine,
-    SyllogismType,
     SyllogismResult,
+    SyllogismType,
 )
 
 

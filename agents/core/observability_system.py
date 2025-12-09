@@ -8,14 +8,14 @@ Implements:
 - Metrics collection and export
 """
 
-from typing import List, Dict, Any, Optional, Callable
+import json
+import threading
+import time
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from contextlib import contextmanager
-import time
-import json
-import threading
+from typing import Any, Callable, Dict, List, Optional
 
 
 class EventType(Enum):

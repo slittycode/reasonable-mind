@@ -8,14 +8,15 @@ Verifies that constitutional principles are enforced:
 - §7.1 Violations: violations are logged with codes V001-V006
 """
 
-import pytest
-import tempfile
 import shutil
+import tempfile
 from pathlib import Path
 
-from ..governed_agent import GovernedCodingAgent, ViolationCode
-from ..persona_lock import PersonaLockViolation, AgentType
+import pytest
+
 from ..execution_proxy import ExecutionMode
+from ..governed_agent import GovernedCodingAgent, ViolationCode
+from ..persona_lock import AgentType, PersonaLockViolation
 
 
 @pytest.fixture

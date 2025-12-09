@@ -6,13 +6,14 @@ including routing, result aggregation, and fallacy detection.
 """
 
 import pytest
+
 from agents.core.logic_orchestrator import (
+    ArgumentType,
+    LogicAnalysisResult,
     LogicOrchestrator,
     StructuredArgument,
-    LogicAnalysisResult,
-    ArgumentType,
-    create_orchestrator,
     analyze_argument,
+    create_orchestrator,
 )
 
 

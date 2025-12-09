@@ -1,13 +1,13 @@
 import http.server
-import socketserver
 import json
-import sys
 import os
+import socketserver
+import sys
 
 # Add project root to path to import agents
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agents.logic.reasoning_agent import ReasoningAgent, LogicType
+from agents.logic.reasoning_agent import LogicType, ReasoningAgent
 
 PORT = 8000
 

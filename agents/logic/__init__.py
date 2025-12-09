@@ -5,20 +5,19 @@ Combines ML-powered reasoning with formal logic representation.
 """
 
 from .knowledge_base import (
-    KnowledgeBase,
     Fact,
-    ValidationResult,
+    InferenceRule,
+    KnowledgeBase,
     LogicalStatement,
     LogicType,
-    InferenceRule,
+    ValidationResult,
 )
-
 from .reasoning_agent import (
-    ReasoningAgent,
-    ReasoningStep,
-    FormalArgument,
     ArgumentBuilder,
     ArgumentFormatter,
+    FormalArgument,
+    ReasoningAgent,
+    ReasoningStep,
 )
 
 __all__ = [

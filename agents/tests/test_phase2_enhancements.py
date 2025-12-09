@@ -4,10 +4,10 @@ Tests for Phase 2 Enhancement Modules
 Tests that match the actual implementation APIs.
 """
 
-import pytest
-from typing import Dict, Any
 from datetime import datetime
+from typing import Any, Dict
 
+import pytest
 
 # ===========================================================
 # Benchmark Suite Tests
@@ -20,9 +20,9 @@ class TestBenchmarkSuite:
     def test_benchmark_runner(self):
         """Test running a simple benchmark."""
         from agents.core.benchmark_suite import (
-            BenchmarkRunner,
-            BenchmarkConfig,
             BenchmarkCategory,
+            BenchmarkConfig,
+            BenchmarkRunner,
         )
 
         runner = BenchmarkRunner()
@@ -39,9 +39,9 @@ class TestBenchmarkSuite:
     def test_regression_detection(self):
         """Test detecting performance regressions."""
         from agents.core.benchmark_suite import (
-            BenchmarkRunner,
-            BenchmarkResult,
             BenchmarkCategory,
+            BenchmarkResult,
+            BenchmarkRunner,
         )
 
         runner = BenchmarkRunner()
@@ -98,12 +98,13 @@ class TestBenchmarkSuite:
 
     def test_benchmark_export(self):
         """Test exporting benchmark results."""
-        from agents.core.benchmark_suite import (
-            BenchmarkRunner,
-            BenchmarkConfig,
-            BenchmarkCategory,
-        )
         import json
+
+        from agents.core.benchmark_suite import (
+            BenchmarkCategory,
+            BenchmarkConfig,
+            BenchmarkRunner,
+        )
 
         runner = BenchmarkRunner()
         config = BenchmarkConfig(
@@ -139,7 +140,7 @@ class TestLatencyControl:
 
     def test_latency_tracker(self):
         """Test latency measurement tracking."""
-        from agents.core.latency_control import LatencyTracker, LatencyMeasurement
+        from agents.core.latency_control import LatencyMeasurement, LatencyTracker
 
         tracker = LatencyTracker()
 
@@ -219,7 +220,7 @@ class TestUIHooks:
 
     def test_event_bus_subscription(self):
         """Test event bus subscription and emission."""
-        from agents.core.ui_hooks import EventBus, UIEvent, EventType
+        from agents.core.ui_hooks import EventBus, EventType, UIEvent
 
         bus = EventBus()
         received = []
@@ -251,7 +252,7 @@ class TestUIHooks:
 
     def test_status_manager(self):
         """Test status management."""
-        from agents.core.ui_hooks import EventBus, StatusManager, AgentStatus
+        from agents.core.ui_hooks import AgentStatus, EventBus, StatusManager
 
         bus = EventBus()
         status = StatusManager(bus)
@@ -276,7 +277,7 @@ class TestUIHooks:
 
     def test_ui_hooks_integration(self):
         """Test UIHooks class integration."""
-        from agents.core.ui_hooks import UIHooks, EventType
+        from agents.core.ui_hooks import EventType, UIHooks
 
         hooks = UIHooks()
         events = []
@@ -492,7 +493,7 @@ class TestIntegration:
     def test_benchmark_with_latency_control(self):
         """Test benchmarking with latency tracking."""
         from agents.core.benchmark_suite import quick_benchmark
-        from agents.core.latency_control import LatencyTracker, LatencyMeasurement
+        from agents.core.latency_control import LatencyMeasurement, LatencyTracker
 
         tracker = LatencyTracker()
 
@@ -515,8 +516,8 @@ class TestIntegration:
 
     def test_ui_hooks_with_calibration(self):
         """Test UI hooks with calibration updates."""
-        from agents.core.ui_hooks import UIHooks, EventType
         from agents.core.calibration_system import CalibrationSystem
+        from agents.core.ui_hooks import EventType, UIHooks
 
         hooks = UIHooks()
         calibration = CalibrationSystem()

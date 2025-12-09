@@ -14,18 +14,18 @@ This demonstrates the complete architecture:
 - Integration: Bidirectional translation between neural and symbolic
 """
 
-import sys
 import asyncio
+import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 # Add agents directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from agent import Agent, ModelConfig
+from logic import InferenceRule, LogicType, ReasoningAgent, ReasoningStep
 from tools.base import Tool
 from tools.extended_thinking import ExtendedThinkingTool
-from logic import ReasoningAgent, LogicType, ReasoningStep, InferenceRule
 
 
 class LogicTool(Tool):

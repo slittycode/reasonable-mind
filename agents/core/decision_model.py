@@ -9,11 +9,11 @@ Implements pluggable utility-based decision scoring with:
 - Integration with plan state and feedback loops
 """
 
-from typing import List, Dict, Any, Optional, Callable, Tuple
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class RiskLevel(Enum):

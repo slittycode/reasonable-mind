@@ -1,6 +1,6 @@
 from agents.core.retrieval_augmentation import (
-    RetrievedDocument,
     RetrievalMode,
+    RetrievedDocument,
     SimpleReranker,
 )
 

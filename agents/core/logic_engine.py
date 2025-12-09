@@ -7,9 +7,9 @@ Implements formal logic rules for argument validation:
 - 100% confidence for deterministic results
 """
 
-from typing import List, Optional
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
+from typing import List, Optional
 
 
 class ArgumentForm(Enum):

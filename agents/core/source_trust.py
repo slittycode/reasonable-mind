@@ -8,12 +8,12 @@ Provides source reliability and recency modeling:
 - Conflict resolution for contradicting sources
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Set
+import math
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from abc import ABC, abstractmethod
-import math
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 
 class TrustLevel(Enum):

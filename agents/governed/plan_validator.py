@@ -12,14 +12,14 @@ Validation stages:
 4. Approval routing - allow, escalate, or block with rationale
 """
 
-import re
+import hashlib
 import json
-from pathlib import Path
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List, Tuple
 from enum import Enum
-import hashlib
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 
 def _utc_now() -> datetime:

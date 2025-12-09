@@ -40,14 +40,13 @@ from typing import Any, Dict, List, Literal, Optional, Tuple
 from agents.core.categorical_engine import (
     CategoricalEngine,
 )
-from agents.core.inference_engine import (
-    InferenceEngine,
-)
 from agents.core.fallacy_detector import (
     FallacyDetector,
     FallacyPattern,
 )
-
+from agents.core.inference_engine import (
+    InferenceEngine,
+)
 
 # =============================================================================
 # Data Structures

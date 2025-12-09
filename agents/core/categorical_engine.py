@@ -7,9 +7,9 @@ Implements validation of categorical syllogisms with proper term distribution:
 - Middle term validation
 """
 
-from typing import Optional
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
+from typing import Optional
 
 
 class SyllogismType(Enum):

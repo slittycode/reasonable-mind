@@ -8,15 +8,15 @@ Provides hybrid retrieval with diversity:
 - MMR (Maximal Marginal Relevance) diversification
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Set, Callable
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from abc import ABC, abstractmethod
 import math
 import re
 import time
+from abc import ABC, abstractmethod
 from collections import Counter
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 
 class RetrievalMethod(Enum):

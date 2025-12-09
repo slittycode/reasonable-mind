@@ -8,12 +8,12 @@ Provides multi-sample self-consistency:
 - Chain-of-Verification (CoVe) patterns
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Callable
+import hashlib
+import math
+import time
 from dataclasses import dataclass, field
 from enum import Enum
-import math
-import hashlib
-import time
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class VotingMethod(Enum):

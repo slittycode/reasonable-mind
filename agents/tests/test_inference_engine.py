@@ -6,15 +6,16 @@ and multi-step reasoning chains using the actual InferenceEngine API.
 """
 
 import pytest
+
 from agents.core.inference_engine import (
+    FormalParser,
     InferenceEngine,
     InferencePattern,
-    QuantifierType,
-    LogicalTerm,
     InferenceResult,
     InferenceStep,
-    FormalParser,
+    LogicalTerm,
     QuantifiedPredicate,
+    QuantifierType,
 )
 
 

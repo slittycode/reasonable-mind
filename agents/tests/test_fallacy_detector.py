@@ -5,11 +5,12 @@ Tests detection of 22+ fallacy patterns across all categories.
 """
 
 import pytest
+
 from agents.core.fallacy_detector import (
-    FallacyDetector,
     FallacyCategory,
-    FallacySeverity,
+    FallacyDetector,
     FallacyPattern,
+    FallacySeverity,
 )
 
 

@@ -8,13 +8,13 @@ Provides vision/text fusion capabilities:
 - Cross-modal grounding
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Union
+import hashlib
+import math
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from abc import ABC, abstractmethod
-import math
-import hashlib
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 
 class ModalityType(Enum):

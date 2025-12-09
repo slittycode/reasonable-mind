@@ -19,7 +19,7 @@ from pathlib import Path
 # Add agents directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from logic import ReasoningAgent, LogicType, InferenceRule
+from logic import InferenceRule, LogicType, ReasoningAgent
 
 
 def demo_basic_reasoning():

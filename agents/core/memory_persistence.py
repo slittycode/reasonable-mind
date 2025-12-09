@@ -8,17 +8,17 @@ Provides persistent storage backends for the memory system:
 - Version-controlled memory snapshots
 """
 
-from typing import List, Dict, Any, Optional
+import hashlib
+import json
+import sqlite3
+import threading
+import time
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from abc import ABC, abstractmethod
 from pathlib import Path
-import json
-import sqlite3
-import hashlib
-import threading
-import time
+from typing import Any, Dict, List, Optional
 
 
 class StorageBackend(Enum):

@@ -6,9 +6,10 @@ Shows chain-of-thought reasoning with multi-layer analysis.
 """
 
 import asyncio
+
 from agent import Agent
-from tools.extended_thinking import ExtendedThinkingTool, WatsonGlaserThinkingTool
 from anthropic import Anthropic
+from tools.extended_thinking import ExtendedThinkingTool, WatsonGlaserThinkingTool
 
 
 def demo_basic_extended_thinking():

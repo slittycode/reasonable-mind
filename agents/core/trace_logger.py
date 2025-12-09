@@ -4,8 +4,8 @@ Trace logger for reasoning/decision/planning events.
 Stores structured events in-memory; can be extended to persist JSONL.
 """
 
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import Any, Dict, List
 
 
 class TraceLogger:

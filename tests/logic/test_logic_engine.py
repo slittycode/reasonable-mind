@@ -9,6 +9,7 @@ Tests cover:
 """
 
 import pytest
+
 from agents.core_logic import (
     LogicEngine,
     LogicForm,

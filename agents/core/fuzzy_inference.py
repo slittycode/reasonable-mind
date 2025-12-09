@@ -9,11 +9,11 @@ Provides fuzzy logic and probabilistic reasoning:
 - Probabilistic inference chains
 """
 
-from typing import List, Dict, Any, Optional, Tuple, Callable
+import math
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from abc import ABC, abstractmethod
-import math
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class FuzzyMembershipType(Enum):

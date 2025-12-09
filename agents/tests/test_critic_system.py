@@ -6,14 +6,15 @@ and output validation mechanisms using the actual CriticSystem API.
 """
 
 import pytest
+
 from agents.core.critic_system import (
-    CriticSystem,
-    CritiqueResult,
-    Critique,
-    CritiqueType,
-    CritiqueSeverity,
-    LogicCritic,
     BiasCritic,
+    CriticSystem,
+    Critique,
+    CritiqueResult,
+    CritiqueSeverity,
+    CritiqueType,
+    LogicCritic,
 )
 
 

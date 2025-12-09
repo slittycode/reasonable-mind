@@ -18,10 +18,10 @@ Usage:
         pass
 """
 
-from enum import Enum
-from typing import Callable, TypeVar, Optional, List
 from dataclasses import dataclass
+from enum import Enum
 from functools import wraps
+from typing import Callable, List, Optional, TypeVar
 
 
 class ArchLayer(Enum):

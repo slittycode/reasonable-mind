@@ -8,14 +8,14 @@ Provides latency management and timeout control:
 - Circuit breaker patterns
 """
 
-from typing import Dict, Any, Optional, Callable, List, Tuple
+import statistics
+import threading
+import time
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import time
-import threading
-from collections import deque
-import statistics
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 
 class TimeoutPolicy(Enum):

@@ -8,11 +8,11 @@ Implements:
 - Grounding confidence in token probabilities where possible
 """
 
-from typing import List, Dict, Any, Optional
+import math
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import math
+from typing import Any, Dict, List, Optional
 
 
 class ConfidenceSource(Enum):

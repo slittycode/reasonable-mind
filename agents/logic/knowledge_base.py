@@ -7,10 +7,10 @@ Implements a hybrid knowledge representation that bridges:
 """
 
 import hashlib
-from typing import Dict, List, Any, Optional, Set
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional, Set
 
 
 class LogicType(Enum):

@@ -8,13 +8,13 @@ Provides event callbacks for UI integration:
 - User interaction callbacks
 """
 
-from typing import Dict, Any, Optional, Callable, List
+import json
+import threading
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import threading
-from collections import deque
-import json
+from typing import Any, Callable, Dict, List, Optional
 
 
 class EventType(Enum):
