@@ -57,7 +57,7 @@ jobs:
 
       - name: Install dev dependencies
         run: |
-          python -m pip install ruff pytest pytest-cov
+          python -m pip install ruff pytest pytest-cov pytest-asyncio
 
       - name: Ruff format (checkable)
         run: |
