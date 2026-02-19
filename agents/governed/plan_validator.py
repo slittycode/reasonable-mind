@@ -14,6 +14,7 @@ Validation stages:
 
 import hashlib
 import json
+import fnmatch
 import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -304,6 +305,7 @@ class PlanValidator:
             List of extracted actions.
         """
         actions = []
+        seen: set[Tuple[ActionCategory, str, str]] = set()
         text = step.description.lower()
 
         for category, patterns in self.ACTION_PATTERNS.items():
@@ -311,6 +313,10 @@ class PlanValidator:
                 matches = re.finditer(pattern, text, re.IGNORECASE)
                 for match in matches:
                     target = match.group(1) if match.lastindex else ""
+                    key = (category, operation, target)
+                    if key in seen:
+                        continue
+                    seen.add(key)
                     actions.append(
                         ExtractedAction(
                             category=category,
@@ -397,7 +403,16 @@ class PlanValidator:
                 ActionCategory.FILE_WRITE,
                 ActionCategory.FILE_CREATE,
             ):
-                if pattern.lower().strip("*") in action.original_text.lower():
+                keyword_pattern = pattern.strip()
+                if (
+                    "/" not in keyword_pattern
+                    and "\\" not in keyword_pattern
+                    and "*" in keyword_pattern
+                ):
+                    keyword = keyword_pattern.replace("*", "").strip().lower()
+                else:
+                    keyword = ""
+                if keyword and keyword in action.original_text.lower():
                     return ValidationResult.BLOCKED, f"Denied by policy: {pattern}"
 
         # Check escalate
@@ -437,21 +452,24 @@ class PlanValidator:
         if not value or not pattern:
             return False
 
-        # Special case: **/* matches everything
         if pattern == "**/*":
             return True
 
-        # Convert glob to regex
-        regex = (
-            pattern.replace(".", r"\.")
-            .replace("**", ".*")
-            .replace("*", "[^/]*")
-            .replace("?", ".")
-        )
-        try:
-            return bool(re.match(f"^{regex}$", value, re.IGNORECASE))
-        except re.error:
-            return pattern.lower() in value.lower()
+        normalized_value = value.replace("\\", "/")
+        normalized_pattern = pattern.replace("\\", "/")
+
+        if fnmatch.fnmatchcase(
+            normalized_value.lower(),
+            normalized_pattern.lower(),
+        ):
+            return True
+
+        # For bare filename patterns, also match against basename.
+        if "/" not in normalized_pattern:
+            basename = normalized_value.rsplit("/", 1)[-1]
+            return fnmatch.fnmatchcase(basename.lower(), normalized_pattern.lower())
+
+        return False
 
     def _compute_validation_hash(self, action: ExtractedAction) -> str:
         """Compute hash of validated action for audit."""

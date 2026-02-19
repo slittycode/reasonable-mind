@@ -341,6 +341,17 @@ class TestConstitutionalEnforcement:
         assert result["status"] in ["approved", "escalate", "blocked"]
         assert "plan_id" in result
 
+    def test_nested_runtime_write_not_blocked_by_root_pattern(self, governed_agent):
+        """Nested runtime writes should not be denied as absolute-path writes."""
+        result = governed_agent.execute_task("write runtime/output.txt")
+        assert result["status"] in ["approved", "escalate"]
+
+    def test_execution_proxy_blocks_outside_sandbox_reads(self, governed_agent):
+        """Execution proxy should deny reads outside the sandbox root."""
+        result = governed_agent._executor.read_file(Path("/tmp/outside.txt"))
+        assert not result.allowed
+        assert result.decision.value == "deny"
+
     def test_agent_repr_shows_governance_state(self, governed_agent):
         """Agent repr should show locked persona and constraint."""
         repr_str = repr(governed_agent)

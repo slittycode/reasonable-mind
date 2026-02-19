@@ -255,6 +255,19 @@ class TestExecutionProxy:
         assert result.decision == Decision.DENY
         assert not result.allowed
 
+    def test_file_read_outside_sandbox_denied(self, governance_dir, temp_sandbox):
+        """Read access should be denied for paths outside the sandbox root."""
+        loader = ConstraintLoader(governance_dir)
+        profile = loader.load("coding_agent_profile")
+
+        proxy = ExecutionProxy(
+            profile=profile, sandbox_root=temp_sandbox, mode=ExecutionMode.DRY_RUN
+        )
+
+        result = proxy.read_file(Path("/tmp/outside.txt"))
+        assert result.decision == Decision.DENY
+        assert not result.allowed
+
     def test_audit_log_populated(self, governance_dir, temp_sandbox):
         """Test that audit log is populated."""
         loader = ConstraintLoader(governance_dir)
@@ -370,6 +383,41 @@ class TestPlanValidator:
         outcome = validator.validate(plan)
         assert outcome.policy_hash is not None
 
+    def test_allow_nested_runtime_write(self, validator):
+        """runtime/** should match nested write targets."""
+        plan = Plan(
+            goal="Write runtime output",
+            steps=[PlanStep(index=0, description="write runtime/output.txt")],
+        )
+        outcome = validator.validate(plan)
+
+        assert outcome.result == ValidationResult.APPROVED
+        assert len(outcome.approved_calls) == 1
+
+    def test_keyword_deny_pattern_checks_original_text(self, validator):
+        """Keyword deny patterns should block even when path extraction is coarse."""
+        write_rules = validator.governance_matrix["action_matrix"]["file_operations"][
+            "write"
+        ]
+        write_rules.setdefault("deny", []).append("*constraint*")
+
+        plan = Plan(
+            goal="Privilege escalation",
+            steps=[PlanStep(index=0, description="modify my own constraint profile")],
+        )
+        outcome = validator.validate(plan)
+
+        assert outcome.result == ValidationResult.BLOCKED
+
+    def test_extract_actions_deduplicates_overlapping_patterns(self, validator):
+        """Action extraction should not duplicate equivalent tool calls."""
+        step = PlanStep(index=0, description="read file test.py")
+        actions = validator._extract_actions(step)
+
+        assert len(actions) == 1
+        assert actions[0].category == ActionCategory.FILE_READ
+        assert actions[0].target == "test.py"
+
 
 # ==================== Persona Lock Tests ====================
 
@@ -443,6 +491,18 @@ class TestPersonaLock:
 
         identity_hash = persona.get_identity_hash()
         assert len(identity_hash) == 64  # SHA-256 hex
+
+    def test_default_capabilities_come_from_agent_type(self, temp_sandbox):
+        """PersonaLock should apply default capabilities when none are provided."""
+        lock = PersonaLock(temp_sandbox)
+        persona = lock.create_persona(
+            agent_id="default-capability-agent",
+            agent_type=AgentType.CODING_AGENT,
+            constraint_hash="cap-default",
+        )
+
+        assert persona.has_capability("file_read")
+        assert persona.has_capability("file_write")
 
     def test_capabilities_from_agent_type(self, temp_sandbox):
         """Test that capabilities are set from agent type."""

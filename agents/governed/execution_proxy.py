@@ -472,6 +472,20 @@ class ExecutionProxy:
         Returns:
             ActionResult with file contents or error.
         """
+        if not self._is_in_sandbox(path):
+            request = ActionRequest(
+                action_type=ActionType.FILE_READ,
+                target=str(path),
+                details={"encoding": encoding},
+            )
+            return ActionResult(
+                request=request,
+                decision=Decision.DENY,
+                allowed=False,
+                reason="Read denied: path outside sandbox",
+                policy_hash=self.profile.integrity_hash,
+            )
+
         request = ActionRequest(
             action_type=ActionType.FILE_READ,
             target=str(path),

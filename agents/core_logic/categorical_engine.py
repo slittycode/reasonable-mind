@@ -10,7 +10,6 @@ Validates categorical syllogisms using:
 Part of the deterministic foundation layer.
 """
 
-from collections import Counter
 from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
@@ -489,22 +488,6 @@ def parse_syllogism(
     major_term = con_stmt.predicate
     minor_term = con_stmt.subject
 
-    def _select_middle_term() -> str:
-        """Pick a middle term with simple heuristics."""
-
-        premise_terms = [
-            maj_stmt.subject,
-            maj_stmt.predicate,
-            min_stmt.subject,
-            min_stmt.predicate,
-        ]
-        conclusion_terms = {con_stmt.subject, con_stmt.predicate}
-
-        candidates = [t for t in premise_terms if t not in conclusion_terms]
-        freq = Counter(candidates or premise_terms)
-        return freq.most_common(1)[0][0]
-
-    middle_term = _select_middle_term()
     # Find middle term
     premise_terms_major = {maj_stmt.subject, maj_stmt.predicate}
     premise_terms_minor = {min_stmt.subject, min_stmt.predicate}
@@ -516,16 +499,21 @@ def parse_syllogism(
     ]
 
     if len(candidate_middle) == 1:
+        # Canonical case: exactly one shared non-conclusion term.
         middle_term = candidate_middle[0]
     else:
         all_premise_terms = premise_terms_major.union(premise_terms_minor)
         middle_terms = all_premise_terms - conclusion_terms
 
-        if len(middle_terms) != 1:
-            # Fallback to heuristic
-            pass
-        else:
+        if len(middle_terms) == 1:
             middle_term = middle_terms.pop()
+        elif len(middle_terms) == 0:
+            # Degenerate fallback: premises only repeat conclusion terms.
+            # Keep deterministic behavior while still allowing validation to decide.
+            middle_term = maj_stmt.subject
+        else:
+            # Ambiguous multi-middle-term cases are not parseable as a syllogism.
+            return None
 
     # Determine mood (e.g., AAA, EAE, AII)
     mood = maj_stmt.type.value + min_stmt.type.value + con_stmt.type.value

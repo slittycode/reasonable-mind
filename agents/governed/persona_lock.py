@@ -403,7 +403,7 @@ class PersonaLock:
             agent_id=agent_id,
             agent_type=agent_type,
             constraint_hash=constraint_hash,
-            capabilities=capabilities or frozenset(),
+            capabilities=capabilities,
             metadata=metadata or {},
         )
 
