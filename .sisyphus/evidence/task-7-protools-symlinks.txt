@@ -1,0 +1,15 @@
+Task 7 Verification - Pro Tools Symlinks
+===========================================
+Wed 18 Feb 2026 02:23:27 NZDT
+
+Symlinks in ~/code/professional tools/skills:        3
+PASS: evidence-first-writing is real directory
+PASS: job-application-orchestrator is real directory
+PASS: job-description-analyzer is real directory
+PASS: job-hunt-ops is real directory
+PASS: networking-outreach-workflow is real directory
+PASS: professional-privacy-sanitizer is real directory
+
+Symlink targets:
+lrwxr-xr-x  1 christiansmith  staff  55 18 Feb 02:23 /Users/christiansmith/code/professional tools/skills/pro-writing-drafter -> /Users/christiansmith/.codex/skills/pro-writing-drafter
+lrwxr-xr-x  1 christiansmith  staff  56 18 Feb 02:23 /Users/christiansmith/code/professional tools/skills/pro-writing-reviewer -> /Users/christiansmith/.codex/skills/pro-writing-reviewer

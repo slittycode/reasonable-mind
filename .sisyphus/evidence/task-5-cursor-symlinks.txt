@@ -1,0 +1,10 @@
+Task 5 Verification - Cursor Symlinks
+=======================================
+Wed 18 Feb 2026 02:23:08 NZDT
+
+Symlinks in ~/Documents/Cursor/skills:        9
+PASS: document-skills is real directory
+
+Sample symlinks:
+lrwxr-xr-x  1 christiansmith  staff  47 18 Feb 02:23 /Users/christiansmith/Documents/Cursor/skills/mcp-builder -> /Users/christiansmith/.codex/skills/mcp-builder
+lrwxr-xr-x  1 christiansmith  staff  49 18 Feb 02:23 /Users/christiansmith/Documents/Cursor/skills/theme-factory -> /Users/christiansmith/.codex/skills/theme-factory

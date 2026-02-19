@@ -1,0 +1,10 @@
+Task 1 Verification - Empty Dirs Removed
+===========================================
+Wed 18 Feb 2026 02:22:32 NZDT
+
+PASS: /Users/christiansmith/.copilot/skills removed or never existed
+FAIL: /Users/christiansmith/.qwen/skills still exists
+FAIL: /Users/christiansmith/.codeium/windsurf/skills still exists
+FAIL: /Users/christiansmith/.vibe/skills still exists
+FAIL: /Users/christiansmith/.kiro/skills still exists
+FAIL: /Users/christiansmith/.gemini/antigravity/skills still exists
